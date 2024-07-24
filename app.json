@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-app1",
-    "slug": "my-app1",
+    "name": "RN-basic-hoidanit",
+    "slug": "RN-basic-hoidanit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
