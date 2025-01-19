@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function App() {
 
@@ -42,7 +42,26 @@ export default function App() {
         onPress={() => alert("tap me")}
       />
 
-      <ScrollView style={{
+      <FlatList
+        style={{
+          marginTop: 20,
+          borderColor: "red", borderWidth: 1
+        }}
+        data={todoList}
+        keyExtractor={item => item.id + ""}
+        //object destructuring data.item
+        renderItem={({ item }) => {
+          return (
+            <Text
+              // key={item.id}
+              style={styles.todo}
+            >
+              {item.title}
+            </Text>
+          )
+        }}
+      />
+      {/* <ScrollView style={{
         marginTop: 20,
         borderColor: "red", borderWidth: 1
       }}>
@@ -55,7 +74,7 @@ export default function App() {
             </Text>
           )
         })}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }
