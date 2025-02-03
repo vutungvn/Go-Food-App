@@ -16,8 +16,10 @@ interface IProps {
 
 const ListTodo = (props: IProps) => {
     const { todoList } = props;
+    console.log(todoList);
     return (
         <>
+            <Text>{JSON.stringify(todoList)}</Text>
             <FlatList
                 style={{
                     marginTop: 20,
