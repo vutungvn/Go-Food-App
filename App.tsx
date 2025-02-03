@@ -16,6 +16,11 @@ export default function App() {
     setTodoList([...todoList, todo])
   }
 
+  const deleteTodo = (id: number) => {
+    const newTodo = todoList.filter(todo => todo.id != id)
+    setTodoList(newTodo)
+  }
+
   return (
     <View style={styles.container}>
 
@@ -24,6 +29,7 @@ export default function App() {
       />
       <ListTodo
         todoList={todoList}
+        deleteTodo={deleteTodo}
       />
 
     </View>

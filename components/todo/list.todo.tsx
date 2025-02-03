@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
     todo: {
@@ -11,15 +11,16 @@ const styles = StyleSheet.create({
 })
 
 interface IProps {
-    todoList: ITodo[]
+    todoList: ITodo[];
+    deleteTodo: (v: number) => void;
 }
 
 const ListTodo = (props: IProps) => {
-    const { todoList } = props;
-    console.log(todoList);
+    const { todoList, deleteTodo } = props;
+    // console.log(todoList);
     return (
         <>
-            <Text>{JSON.stringify(todoList)}</Text>
+            {/* <Text>{JSON.stringify(todoList)}</Text> */}
             <FlatList
                 style={{
                     marginTop: 20,
@@ -30,12 +31,15 @@ const ListTodo = (props: IProps) => {
                 //object destructuring data.item
                 renderItem={({ item }) => {
                     return (
-                        <Text
-                            // key={item.id}
-                            style={styles.todo}
-                        >
-                            {item.title}
-                        </Text>
+                        <TouchableOpacity
+                            onPress={() => deleteTodo(item.id)}>
+                            <Text
+                                // key={item.id}
+                                style={styles.todo}
+                            >
+                                {item.title}
+                            </Text>
+                        </TouchableOpacity>
                     )
                 }}
             />
