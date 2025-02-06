@@ -7,22 +7,30 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "red",
         // flexDirection: "row",
-        justifyContent: "center"
+        justifyContent: "center",
+        // alignItems: "center"
     },
     item1: {
         padding: 20,
         borderWidth: 1,
-        backgroundColor: "violet"
+        backgroundColor: "violet",
+        // height: 250,
+        flex: 4,
+        width: 250
     },
     item2: {
+        flex: 1,
         padding: 20,
         borderWidth: 1,
-        backgroundColor: "green"
+        backgroundColor: "green",
+        width: 300
     },
     item3: {
         padding: 20,
         borderWidth: 1,
-        backgroundColor: "orange"
+        backgroundColor: "orange",
+        flex: 1,
+        width: 100
     },
     item4: {
         padding: 20,
