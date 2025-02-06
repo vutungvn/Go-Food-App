@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, StyleSheet, TextInput, View } from "react-native";
+import MineButton from "../button/mine.button";
 
 const styles = StyleSheet.create({
     todoInput: {
@@ -26,11 +27,11 @@ const InputTodo = (props: IProps) => {
                 "Thông tin không hợp lệ",
                 "Tiêu đề không được để trống",
                 [
-                    {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
-                        style: 'cancel',
-                    },
+                    // {
+                    //     text: 'Cancel',
+                    //     onPress: () => console.log('Cancel Pressed'),
+                    //     style: 'cancel',
+                    // },
                     { text: 'OK', onPress: () => console.log('OK Pressed') },
                 ]
             )
@@ -42,7 +43,7 @@ const InputTodo = (props: IProps) => {
 
     return (
         <>
-            <View>
+            <View style={{ marginBottom: 20 }}>
                 <TextInput
                     onChangeText={value => setName(value)}
                     value={name}
@@ -51,11 +52,12 @@ const InputTodo = (props: IProps) => {
                     style={styles.todoInput}
                 />
 
-                <Button
+                <MineButton
                     title='Add new'
                     onPress={handleAddNewTodo}
                 />
             </View>
+
         </>
     )
 }
