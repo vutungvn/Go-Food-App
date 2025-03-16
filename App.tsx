@@ -1,53 +1,34 @@
 import { useState } from 'react';
-import { Keyboard, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import InputTodo from './components/todo/input.todo';
-import ListTodo from './components/todo/list.todo';
-import FlexBox from './components/todo/flexbox';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
 
-  const [todoList, setTodoList] = useState<ITodo[]>([])
-
-  function randomInteger(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  function HomeScreen() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Home Screen</Text>
+      </View>
+    );
   }
 
-  const addTodo = (text: string) => {
-    const todo = { id: randomInteger(1, 1000000), title: text };
-    setTodoList([...todoList, todo])
-  }
-
-  const deleteTodo = (id: number) => {
-    const newTodo = todoList.filter(todo => todo.id != id)
-    setTodoList(newTodo)
+  function DetailsScreen() {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+      </View>
+    );
   }
 
   return (
-    // <FlexBox />
-    <TouchableWithoutFeedback
-      onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-
-        <InputTodo
-          addTodo={addTodo}
-        />
-        <ListTodo
-          todoList={todoList}
-          deleteTodo={deleteTodo}
-        />
-      </View>
-    </TouchableWithoutFeedback>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    marginTop: 50
-  },
-});
