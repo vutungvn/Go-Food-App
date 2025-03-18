@@ -7,119 +7,65 @@ import 'react-native-gesture-handler';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Home from './components/learn/home';
+import HomeDetail from './components/learn/home.detail';
+import Like from './components/learn/like';
+import LikeDetail from './components/learn/like.detail';
+import About from './components/learn/about';
+import ChangePassword from './components/learn/change.password';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Drawer = createDrawerNavigator();
   const Tab = createBottomTabNavigator();
 
-  function HomeScreen(props: any) {
-    const navigation = props.navigation;
-
+  const TabApp = () => {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-        <View style={{ marginVertical: 10 }}>
-          <Button
-            onPress={() => navigation.navigate("hoidanit")}
-            title='Go to Detail' />
-        </View>
-
-        <View style={{ marginVertical: 10 }}>
-          <Button
-            onPress={() => navigation.navigate("hoidanit",
-              { userId: 1, name: "Eric" }
-            )}
-            title='Go user id = 1' />
-        </View>
-
-        <View style={{ marginVertical: 10 }}>
-          <Button
-            onPress={() => navigation.navigate("hoidanit",
-              { userId: 2, name: "Thanh Tung" }
-            )}
-            title='Go user id = 2' />
-        </View>
-      </View>
-    );
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home}
+        />
+        <Tab.Screen name="Like" component={Like}
+        />
+      </Tab.Navigator>
+    )
   }
 
-  function DetailsScreen(props: any) {
-    const route: any = useRoute();
-    const navigation: any = useNavigation();
-
+  const StackApp = () => {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-        <Text>user id = {route?.params?.userId}</Text>
-        <Button
-          onPress={() => navigation.goBack()}
-          title='Go to Home' />
-      </View>
-    );
-  }
-
-  return (
-    <NavigationContainer>
-      {/* <Stack.Navigator
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      >
+      <Stack.Navigator>
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
-          options={{ headerTitle: "Trang trủ" }}
+          component={TabApp}
+          options={{ headerTitle: "Trang trủ", headerShown: false }}
         />
         <Stack.Screen
-          name="hoidanit"
-          component={DetailsScreen}
+          name="HomeDetail"
+          component={HomeDetail}
           options={({ route }: { route: any }) => ({
             headerTitle: `Xem chi tiết ${route?.params?.userId ?? ""}`
           })}
         />
-      </Stack.Navigator> */}
-      {/* <Drawer.Navigator initialRouteName='Feed'>
-        <Drawer.Screen name="Article" component={DetailsScreen} />
-        <Drawer.Screen
-          options={{
-            drawerLabel: "Trang chủ",
-            headerTitle: "Trang chủ"
-          }}
-          name="Feed" component={HomeScreen}
+        <Stack.Screen
+          name="LikeDetail"
+          component={LikeDetail}
         />
-      </Drawer.Navigator> */}
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+      </Stack.Navigator>
+    )
+  }
+  return (
+    <NavigationContainer>
 
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'checkmark-circle'
-                : 'checkmark-circle';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'airplane' : 'airplane';
-            }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName as any}
-              size={size} color={color}
-            />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={DetailsScreen} />
-      </Tab.Navigator>
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="StackApp" component={StackApp}
+        />
+        <Drawer.Screen
+          name="About" component={About}
+        />
+        <Drawer.Screen
+          name="ChangePassword" component={ChangePassword}
+        />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 }
