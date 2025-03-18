@@ -55,9 +55,29 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="hoidanit" component={DetailsScreen} />
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerTitle: "Trang trủ" }}
+        />
+        <Stack.Screen
+          name="hoidanit"
+          component={DetailsScreen}
+          options={({ route }: { route: any }) => ({
+            headerTitle: `Xem chi tiết ${route?.params?.userId ?? ""}`
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
