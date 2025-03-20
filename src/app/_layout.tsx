@@ -20,7 +20,7 @@ const RootLayout = () => {
             }}
         >
             <Stack.Screen
-                name="index"
+                name="(tabs)"
                 options={{ headerTitle: "Trang chủ" }}
             />
 
