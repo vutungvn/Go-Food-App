@@ -25,6 +25,11 @@ const RootLayout = () => {
             />
 
             <Stack.Screen
+                name="(auth)/signup"
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
                 name="(tabs)"
                 options={{ headerTitle: "Trang chủ" }}
             />
