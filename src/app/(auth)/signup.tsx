@@ -3,8 +3,8 @@ import SocialButton from "@/components/button/social.button"
 import ShareInput from "@/components/input/share.input"
 import { APP_COLOR } from "@/utils/constant"
 import axios from "axios"
-import { Link } from "expo-router"
-import { useEffect, useState } from "react"
+import { Link, router } from "expo-router"
+import { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
@@ -17,26 +17,25 @@ const styles = StyleSheet.create({
 })
 
 const SignUpPage = () => {
-    const URL_BACKEND = process.env.EXPO_PUBLIC_API_URL;
-
-    console.log(">>> check url backend: ", URL_BACKEND);
-
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    useEffect(() => {
-        const fetchAPI = async () => {
-            try {
-                const res = await axios.get(URL_BACKEND!);
-                console.log("Check: ", res.data)
-            } catch (error) {
-                console.log("Check: ", error);
+    const handleSignUp = async () => {
+        const url = `${process.env.EXPO_PUBLIC_API_URL}/api/v1/auth/register`
 
+        try {
+            const res = await axios.post(url, { email, name, password });
+            if (res.data) {
+                router.navigate("/(auth)/verify")
             }
+            console.log("Check: ", res.data)
+        } catch (error) {
+            console.log("Check: ", error);
+
         }
-        fetchAPI()
-    }, [])
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -73,7 +72,7 @@ const SignUpPage = () => {
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
                     title="Sign up"
-                    onPress={() => { console.log(name, email, password) }}
+                    onPress={handleSignUp}
                     textStyle={{
                         textTransform: "uppercase",
                         color: "#fff",
