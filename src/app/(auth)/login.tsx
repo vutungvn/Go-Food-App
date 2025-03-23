@@ -1,7 +1,7 @@
 import ShareButton from "@/components/button/share.button"
 import SocialButton from "@/components/button/social.button"
 import ShareInput from "@/components/input/share.input"
-import { registerAPI } from "@/utils/api"
+import { loginAPI, registerAPI } from "@/utils/api"
 import { APP_COLOR } from "@/utils/constant"
 import { Link, router } from "expo-router"
 import { useState } from "react"
@@ -22,30 +22,33 @@ const LoginPage = () => {
     const [password, setPassword] = useState<string>("");
 
     const handleLogin = async () => {
-        console.log(">>check email = ", email, "and password = ", password);
-        // try {
-        //     const res = await registerAPI(email, password, name);
-        //     if (res.data) {
-        //         router.replace({
-        //             pathname: "/(auth)/verify",
-        //             params: { email: email }
-        //         })
-        //     } else {
-        //         const m = Array.isArray(res.message) ? res.message[0] : res.message;
+        try {
+            const res = await loginAPI(email, password);
+            if (res.data) {
+                router.replace("/(tabs)");
+            } else {
+                const m = Array.isArray(res.message) ? res.message[0] : res.message;
 
-        //         Toast.show(m, {
-        //             duration: Toast.durations.LONG,
-        //             backgroundColor: APP_COLOR.ORANGE,
-        //             opacity: 0.9,
-        //             shadow: true,
-        //             animation: true,
-        //             hideOnPress: true,
-        //             textStyle: { fontSize: 16 },
-        //         });
-        //     }
-        // } catch (error) {
-        //     console.log("Check: ", error);
-        // }
+                Toast.show(m, {
+                    duration: Toast.durations.LONG,
+                    backgroundColor: APP_COLOR.ORANGE,
+                    opacity: 0.9,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    textStyle: { fontSize: 16 },
+                });
+
+                if (res.statusCode === 400) {
+                    router.replace({
+                        pathname: "/(auth)/verify",
+                        params: { email: email, isLogin: 1 }
+                    })
+                }
+            }
+        } catch (error) {
+            console.log("Check: ", error);
+        }
     }
 
     return (
