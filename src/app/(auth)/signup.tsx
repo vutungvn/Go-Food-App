@@ -27,7 +27,7 @@ const SignUpPage = () => {
         try {
             const res = await registerAPI(email, password, name);
             if (res.data) {
-                router.navigate({
+                router.replace({
                     pathname: "/(auth)/verify",
                     params: { email: email }
                 })
@@ -63,7 +63,7 @@ const SignUpPage = () => {
                 </View>
 
                 <ShareInput
-                    title="Full name"
+                    title="Fullname"
                     value={name}
                     setValue={setName}
                 />

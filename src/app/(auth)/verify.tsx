@@ -1,5 +1,5 @@
 import LoadingOverlay from "@/components/loading/overlay";
-import { verifyCodeAPI } from "@/utils/api";
+import { resendCodeAPI, verifyCodeAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -40,17 +40,17 @@ const VerifyPage = () => {
         if (res.data) {
             //success     
             // clear input
-            otpRef?.current?.clear()
+            otpRef?.current?.clear();
             Toast.show("Xác minh tài khoản thành công", {
                 duration: Toast.durations.LONG,
-                backgroundColor: APP_COLOR.ORANGE,
+                backgroundColor: APP_COLOR.GREEN,
                 opacity: 0.9,
                 shadow: true,
                 animation: true,
                 hideOnPress: true,
                 textStyle: { fontSize: 16 },
             });
-            router.navigate("/(auth)/login")
+            router.replace("/(auth)/login")
         } else {
             // error
             Toast.show(res.message as string, {
@@ -71,6 +71,22 @@ const VerifyPage = () => {
         }
     }, [code])
 
+    const handleResendCode = async () => {
+        otpRef?.current?.clear();
+        //call api
+        const res = await resendCodeAPI(email as string);
+        const m = res.data ? "Gửi lại mã thành công" : res.message;
+        Toast.show(m as string, {
+            duration: Toast.durations.LONG,
+            backgroundColor: APP_COLOR.GREEN,
+            opacity: 0.9,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            textStyle: { fontSize: 16 },
+        });
+    }
+
     return (
         <>
             <View style={styles.container}>
@@ -78,7 +94,7 @@ const VerifyPage = () => {
                     Verification Code
                 </Text>
                 <Text style={styles.text}>
-                    Please type the verification code sent to vanadangcap123@gmail.com
+                    Please type the verification code sent to your gmail
                 </Text>
                 <View style={{ marginVertical: 20 }}>
                     <OTPTextView
@@ -103,7 +119,11 @@ const VerifyPage = () => {
                     style={{ flexDirection: "row", marginVertical: 10, gap: 10, justifyContent: "center" }}
                 >
                     <Text>I don’t recevie a code!</Text>
-                    <Text style={{ color: APP_COLOR.ORANGE, textDecorationLine: "underline" }}>Please resend</Text>
+                    <Text
+                        onPress={handleResendCode}
+                        style={{ color: APP_COLOR.ORANGE, textDecorationLine: "underline" }}
+                    >Please resend
+                    </Text>
                 </View>
             </View>
             {isSubmit && <LoadingOverlay />}
