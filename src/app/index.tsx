@@ -43,7 +43,7 @@ const WelcomePage = () => {
 
     if (true) {
         return (
-            <Redirect href={"/(auth)/verify"} />
+            <Redirect href={"/(auth)/signup"} />
         )
     }
     return (
