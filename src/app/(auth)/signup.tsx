@@ -8,7 +8,6 @@ import { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import Toast from "react-native-root-toast"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { FontAwesome } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({
     container: {
@@ -114,7 +113,7 @@ const SignUpPage = () => {
                     >
                         Already have an account?
                     </Text>
-                    <Link href={"/(auth)/signup"}>
+                    <Link href={"/(auth)/login"}>
                         <Text
                             style={{
                                 color: APP_COLOR.ORANGE,
@@ -126,7 +125,9 @@ const SignUpPage = () => {
                     </Link>
                 </View>
 
-                <SocialButton />
+                <SocialButton
+                    title="Sign up with"
+                />
             </View>
         </SafeAreaView>
 
