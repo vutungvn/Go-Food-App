@@ -20,11 +20,9 @@ const styles = StyleSheet.create({
 })
 
 const LoginPage = () => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false)
 
-    const handleLogin = async () => {
+    const handleLogin = async (email: string, password: string) => {
         try {
             setLoading(true);
             const res = await loginAPI(email, password);
@@ -58,123 +56,106 @@ const LoginPage = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            {/* <View style={styles.container}>
-                <View>
-                    <Text style={{
-                        fontSize: 36,
-                        fontWeight: "600",
-                        marginVertical: 30
-                    }}>
-                        Login
-                    </Text>
-                </View>
 
-                <ShareInput
-                    title="Email"
-                    keyboardType="email-address"
-                    value={email}
-                    setValue={setEmail}
-                />
-
-                <ShareInput
-                    title="Password"
-                    secureTextEntry={true}
-                    value={password}
-                    setValue={setPassword}
-                />
-
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        marginTop: 20
-                    }}>
-                    <Text
-                        style={{
-                            color: APP_COLOR.ORANGE,
-                        }}
-                    >
-                        Forgot password?
-                    </Text>
-                </View>
-
-                <View style={{ marginVertical: 10 }}></View>
-
-                <ShareButton
-                    loading={loading}
-                    title="Login"
-                    onPress={handleLogin}
-                    textStyle={{
-                        textTransform: "uppercase",
-                        color: "#fff",
-                        paddingVertical: 5
-                    }}
-                    btnStyle={{
-                        justifyContent: "center",
-                        borderRadius: 30,
-                        marginHorizontal: 50,
-                        paddingVertical: 10,
-                        backgroundColor: APP_COLOR.ORANGE,
-                    }}
-                    pressStyle={{ alignSelf: "stretch" }}
-                />
-
-                <View style={{
-                    marginVertical: 20,
-                    flexDirection: "row",
-                    gap: 10,
-                    justifyContent: "center"
-                }}>
-                    <Text
-                        style={{
-                            color: "black"
-                        }}
-                    >
-                        Don’t have an account?
-                    </Text>
-                    <Link href={"/(auth)/signup"}>
-                        <Text
-                            style={{
-                                color: APP_COLOR.ORANGE,
-                                textDecorationLine: "underline"
-                            }}
-                        >
-                            Sign Up
-                        </Text>
-                    </Link>
-                </View>
-
-                <SocialButton
-                    title="Sign in with"
-                />
-            </View> */}
             <Formik
                 validationSchema={LoginSchema}
                 initialValues={{ email: '', password: '' }}
-                onSubmit={values => console.log("check values = ", values)}
+                onSubmit={values => handleLogin(values.email, values.password)}
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
-                    <View style={{ margin: 10 }}>
-                        <Text>Email</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: "#ccc" }}
+                    <View style={styles.container}>
+                        <View>
+                            <Text style={{
+                                fontSize: 36,
+                                fontWeight: "600",
+                                marginVertical: 30
+                            }}>
+                                Login
+                            </Text>
+                        </View>
+
+                        <ShareInput
+                            title="Email"
+                            keyboardType="email-address"
                             onChangeText={handleChange('email')}
                             onBlur={handleBlur('email')}
                             value={values.email}
+                            error={errors.email}
                         />
-                        {errors.email && <Text style={{ color: "red" }}>{errors.email}</Text>}
-                        <View style={{ marginVertical: 10 }}></View>
-                        <Text>Password</Text>
-                        <TextInput
-                            style={{ borderWidth: 1, borderColor: "#ccc" }}
+
+                        <ShareInput
+                            title="Password"
+                            secureTextEntry={true}
                             onChangeText={handleChange('password')}
                             onBlur={handleBlur('password')}
                             value={values.password}
+                            error={errors.password}
                         />
-                        {errors.password && <Text style={{ color: "red" }}>{errors.password}</Text>}
+
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                marginTop: 20
+                            }}>
+                            <Text
+                                style={{
+                                    color: APP_COLOR.ORANGE,
+                                }}
+                            >
+                                Forgot password?
+                            </Text>
+                        </View>
+
                         <View style={{ marginVertical: 10 }}></View>
 
-                        <Button onPress={handleSubmit as any} title="Submit" />
+                        <ShareButton
+                            loading={loading}
+                            title="Login"
+                            onPress={handleSubmit as any}
+                            textStyle={{
+                                textTransform: "uppercase",
+                                color: "#fff",
+                                paddingVertical: 5
+                            }}
+                            btnStyle={{
+                                justifyContent: "center",
+                                borderRadius: 30,
+                                marginHorizontal: 50,
+                                paddingVertical: 10,
+                                backgroundColor: APP_COLOR.ORANGE,
+                            }}
+                            pressStyle={{ alignSelf: "stretch" }}
+                        />
+
+                        <View style={{
+                            marginVertical: 20,
+                            flexDirection: "row",
+                            gap: 10,
+                            justifyContent: "center"
+                        }}>
+                            <Text
+                                style={{
+                                    color: "black"
+                                }}
+                            >
+                                Don’t have an account?
+                            </Text>
+                            <Link href={"/(auth)/signup"}>
+                                <Text
+                                    style={{
+                                        color: APP_COLOR.ORANGE,
+                                        textDecorationLine: "underline"
+                                    }}
+                                >
+                                    Sign Up
+                                </Text>
+                            </Link>
+                        </View>
+
+                        <SocialButton
+                            title="Sign in with"
+                        />
                     </View>
                 )}
             </Formik>

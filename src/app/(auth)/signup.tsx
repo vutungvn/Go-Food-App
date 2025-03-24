@@ -21,10 +21,13 @@ const SignUpPage = () => {
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSignUp = async () => {
         try {
+            setLoading(true);
             const res = await registerAPI(email, password, name);
+            setLoading(false);
             if (res.data) {
                 router.replace({
                     pathname: "/(auth)/verify",
@@ -83,6 +86,7 @@ const SignUpPage = () => {
 
                 <View style={{ marginVertical: 10 }}></View>
                 <ShareButton
+                    loading={loading}
                     title="Sign up"
                     onPress={handleSignUp}
                     textStyle={{
