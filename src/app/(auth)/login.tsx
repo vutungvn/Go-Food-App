@@ -56,7 +56,6 @@ const LoginPage = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-
             <Formik
                 validationSchema={LoginSchema}
                 initialValues={{ email: '', password: '' }}
@@ -159,9 +158,7 @@ const LoginPage = () => {
                     </View>
                 )}
             </Formik>
-
         </SafeAreaView>
-
     )
 }
 
