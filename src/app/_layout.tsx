@@ -7,7 +7,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const RootLayout = () => {
     return (
         <RootSiblingParent>
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{
+                flex: 1,
+            }}>
                 <Stack
                     screenOptions={{
                         headerStyle: {

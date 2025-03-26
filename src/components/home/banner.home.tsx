@@ -21,7 +21,7 @@ function BannerHome() {
     const ref = React.useRef<ICarouselInstance>(null);
     const progress = useSharedValue<number>(0);
     const width = Dimensions.get("window").width;
-
+    const containerWidth = width * 0.97;
 
     const onPressPagination = (index: number) => {
         ref.current?.scrollTo({
@@ -48,19 +48,32 @@ function BannerHome() {
     ]
 
     return (
-        <View style={{ flex: 1 }}>
+        <View
+            style={{
+                width: containerWidth,
+                alignSelf: "center",
+                borderWidth: 1,
+                borderColor: "#ccc",
+                borderRadius: 15,
+                padding: 5,
+            }}
+        >
             <Carousel
                 ref={ref}
-                width={width}
+                width={containerWidth - 10}
                 height={width / 4}
                 data={sliders}
                 onProgressChange={progress}
-                renderItem={({ item, index }) => (
+                autoPlay={true}
+                autoPlayInterval={3000}
+                loop={true}
+                renderItem={({ item }) => (
                     <Image
                         style={{
-                            width: width,
+                            width: "100%",
                             height: width / 3.7,
                             resizeMode: "cover",
+                            borderRadius: 10,
                         }}
                         source={item.source}
                     />
@@ -74,7 +87,7 @@ function BannerHome() {
                     width: 5,
                     height: 5,
                     backgroundColor: "rgba(0,0,0,0.2)",
-                    borderRadius: 50
+                    borderRadius: 50,
                 }}
                 containerStyle={{ gap: 5, marginTop: 10 }}
                 onPress={onPressPagination}

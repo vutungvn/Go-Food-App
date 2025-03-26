@@ -10,16 +10,16 @@ const data = Array(10).fill(1);
 
 const HomeTag = () => {
     return (
-        <SafeAreaView style={styles.container}>
-            <CustomFlatList
-                data={data}
-                style={styles.list}
-                renderItem={() => <View style={styles.item} />}
-                HeaderComponent={<HeaderHome />}
-                StickyElementComponent={<SearchHome />}
-                TopListElementComponent={<TopListHome />}
-            />
-        </SafeAreaView>
+        // <SafeAreaView style={styles.container}>
+        <CustomFlatList
+            data={data}
+            style={styles.list}
+            renderItem={() => <View style={styles.item} />}
+            HeaderComponent={<HeaderHome />}
+            StickyElementComponent={<SearchHome />}
+            TopListElementComponent={<TopListHome />}
+        />
+        // </SafeAreaView>
     );
 }
 
