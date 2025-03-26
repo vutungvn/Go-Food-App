@@ -4,17 +4,11 @@ import BannerHome from "./banner.home";
 const data1 = Array(20).fill(1);
 
 const styles = StyleSheet.create({
-    topList: {
-        borderColor: "orange",
-        borderWidth: 5,
-        minHeight: 100,
-        marginBottom: 6,
-        width: "100%"
-    }
+
 })
 const TopListHome = () => {
     return (
-        <View style={styles.topList} >
+        <View >
             <BannerHome />
             <ScrollView
                 horizontal
