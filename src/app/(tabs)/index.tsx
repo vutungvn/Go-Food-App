@@ -17,7 +17,6 @@ const HomeTag = () => {
                 renderItem={() => <View style={styles.item} />}
                 HeaderComponent={<HeaderHome />}
                 StickyElementComponent={<SearchHome />}
-                // TopListElementComponent={<View style={styles.topList} />}
                 TopListElementComponent={<TopListHome />}
             />
         </SafeAreaView>

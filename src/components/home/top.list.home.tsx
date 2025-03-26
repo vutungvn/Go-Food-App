@@ -1,4 +1,5 @@
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import BannerHome from "./banner.home";
 
 const data1 = Array(20).fill(1);
 
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
 const TopListHome = () => {
     return (
         <View style={styles.topList} >
+            <BannerHome />
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
