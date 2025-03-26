@@ -41,7 +41,7 @@ const RootLayout = () => {
 
                     <Stack.Screen
                         name="(tabs)"
-                        options={{ headerTitle: "Trang chủ" }}
+                        options={{ headerShown: false }}
                     />
 
                     <Stack.Screen
