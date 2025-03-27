@@ -46,6 +46,7 @@ const WelcomePage = () => {
             <Redirect href={"/(tabs)"} />
         )
     }
+
     return (
         <ImageBackground
             style={{ flex: 1 }}

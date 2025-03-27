@@ -1,5 +1,4 @@
 import { Tabs } from "expo-router";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { APP_COLOR } from "@/utils/constant";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
