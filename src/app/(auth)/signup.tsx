@@ -70,7 +70,7 @@ const SignUpPage = () => {
                         </View>
 
                         <ShareInput
-                            title="Fullname"
+                            title="Full name"
                             onChangeText={handleChange('name')}
                             onBlur={handleBlur('name')}
                             value={values.name}

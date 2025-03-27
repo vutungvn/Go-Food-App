@@ -3,7 +3,7 @@ import CollectionHome from "@/components/home/collection.home";
 import HeaderHome from "@/components/home/header.home";
 import SearchHome from "@/components/home/search.home";
 import TopListHome from "@/components/home/top.list.home";
-import { useCurrentTheme } from "@/context/app.context";
+import { useCurrentApp } from "@/context/app.context";
 import { Button, StyleSheet } from "react-native"
 
 const data = [
@@ -13,7 +13,7 @@ const data = [
 ]
 
 const HomeTag = () => {
-    const { setTheme } = useCurrentTheme();
+    const { setTheme } = useCurrentApp();
 
     return (
         <>
