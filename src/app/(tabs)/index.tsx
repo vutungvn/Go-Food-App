@@ -3,8 +3,7 @@ import CollectionHome from "@/components/home/collection.home";
 import HeaderHome from "@/components/home/header.home";
 import SearchHome from "@/components/home/search.home";
 import TopListHome from "@/components/home/top.list.home";
-import { useCurrentApp } from "@/context/app.context";
-import { Button, StyleSheet } from "react-native"
+import { StyleSheet } from "react-native"
 
 const data = [
     { key: 1, name: "Top Quán Rating 5* tuần này", ref: "" },
@@ -13,20 +12,15 @@ const data = [
 ]
 
 const HomeTag = () => {
-    const { setTheme } = useCurrentApp();
-
     return (
-        <>
-            <Button title="Change context" onPress={() => setTheme("theme update")} />
-            <CustomFlatList
-                data={data}
-                style={styles.list}
-                renderItem={({ item }) => <CollectionHome name={item.name} />}
-                HeaderComponent={<HeaderHome />}
-                StickyElementComponent={<SearchHome />}
-                TopListElementComponent={<TopListHome />}
-            />
-        </>
+        <CustomFlatList
+            data={data}
+            style={styles.list}
+            renderItem={({ item }) => <CollectionHome name={item.name} />}
+            HeaderComponent={<HeaderHome />}
+            StickyElementComponent={<SearchHome />}
+            TopListElementComponent={<TopListHome />}
+        />
     );
 }
 

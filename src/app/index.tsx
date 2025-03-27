@@ -6,7 +6,11 @@ import fbLogo from '@/assets/auth/facebook.png';
 import ggLogo from '@/assets/auth/google.png';
 import { LinearGradient } from "expo-linear-gradient";
 import TextBetweenLine from "@/components/button/text.between.line";
-import { Link, Redirect, router } from "expo-router";
+import { Link, router } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from "react";
+import { getAccountAPI } from "@/utils/api";
+import { useCurrentApp } from "@/context/app.context";
 
 const styles = StyleSheet.create({
     container: {
@@ -39,13 +43,28 @@ const styles = StyleSheet.create({
         width: "80%"
     },
 })
-const WelcomePage = () => {
 
-    // if (true) {
-    //     return (
-    //         <Redirect href={"/(tabs)"} />
-    //     )
-    // }
+const WelcomePage = () => {
+    const { setAppState } = useCurrentApp();
+
+    useEffect(() => {
+        const fetchAccount = async () => {
+            const res = await getAccountAPI();
+
+            if (res.data) {
+                //success
+                setAppState({
+                    user: res.data.user,
+                    access_token: await AsyncStorage.setItem("access_token", res.data.access_token),
+                });
+                router.replace("/(tabs)")
+            } else {
+                //error
+
+            }
+        }
+        fetchAccount()
+    }, [])
 
     return (
         <ImageBackground
