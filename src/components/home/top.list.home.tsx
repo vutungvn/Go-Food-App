@@ -50,8 +50,6 @@ const TopListHome = () => {
                     <FlatList
                         contentContainerStyle={{ alignSelf: 'flex-start' }}
                         numColumns={Math.ceil(data1.length / 2)}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
                         data={data1}
                         renderItem={({ item, index }) => {
                             return (

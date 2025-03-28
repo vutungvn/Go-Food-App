@@ -96,21 +96,21 @@ const TabLayout = () => {
             <Tabs.Screen
                 name="order"
                 options={{
-                    title: 'Order',
+                    title: 'My Orders',
                 }}
             />
 
             <Tabs.Screen
                 name="favorite"
                 options={{
-                    title: 'Liked',
+                    title: 'Likes',
                 }}
             />
 
             <Tabs.Screen
                 name="notification"
                 options={{
-                    title: 'Notification',
+                    title: 'Notifications',
                 }}
             />
 
