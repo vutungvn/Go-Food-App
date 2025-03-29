@@ -26,6 +26,11 @@ export const getAccountAPI = () => {
     return axios.get<IBackendRes<IUserLogin>>(url);
 }
 
+export const getTopRestaurant = (ref: string) => {
+    const url = `/api/v1/restaurants/${ref}`;
+    return axios.post<IBackendRes<ITopRestaurant[]>>(url);
+}
+
 export const printAsyncStorage = () => {
     AsyncStorage.getAllKeys((err, keys) => {
         AsyncStorage.multiGet(keys!, (error, stores) => {

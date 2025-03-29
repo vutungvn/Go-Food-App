@@ -1,11 +1,14 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native"
+import { FlatList, Image, Platform, StyleSheet, Text, View } from "react-native"
 import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useEffect, useState } from "react";
+import { getTopRestaurant } from "@/utils/api";
 
 interface IProps {
     name: string;
     description: string;
+    refAPI: string;
 }
 
 const styles = StyleSheet.create({
@@ -67,11 +70,12 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "600",
         color: "#333",
+        maxWidth: 130,
     },
 });
 
 const CollectionHome = (props: IProps) => {
-    const { name, description } = props;
+    const { name, description, refAPI } = props;
     const data = [
         { key: 1, image: demo, name: 'Cửa hàng 1' },
         { key: 2, image: demo, name: 'Cửa hàng 2' },
@@ -79,6 +83,27 @@ const CollectionHome = (props: IProps) => {
         { key: 4, image: demo, name: 'Cửa hàng 4' },
         { key: 5, image: demo, name: 'Cửa hàng 5' },
     ];
+    const [restaurants, setRestaurants] = useState<ITopRestaurant[]>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getTopRestaurant(refAPI);
+
+            if (res.data) {
+                //success
+                setRestaurants(res.data);
+            } else {
+                //error
+            }
+        }
+        fetchData()
+    }, [refAPI]);
+
+    const backend = Platform.OS === "android"
+        ? process.env.EXPO_PUBLIC_ANDROID_API_URL
+        : process.env.EXPO_PUBLIC_IOS_API_URL;
+
+    const baseImage = `${backend}/images/restaurant`;
 
     return (
         <>
@@ -90,14 +115,16 @@ const CollectionHome = (props: IProps) => {
                 </View>
                 <Text style={styles.description}>{description}</Text>
                 <FlatList
-                    data={data}
+                    data={restaurants}
                     horizontal
                     contentContainerStyle={{ paddingHorizontal: 5 }}
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
                             <View style={styles.itemContainer}>
-                                <Image style={styles.itemImage} source={demo} />
+                                <Image style={styles.itemImage}
+                                    source={{ uri: `${baseImage}/${item.image}` }}
+                                />
                                 <View style={styles.itemContent}>
                                     <View style={{
                                         flexDirection: "row",
@@ -108,7 +135,10 @@ const CollectionHome = (props: IProps) => {
                                             size={18}
                                             color={APP_COLOR.ORANGE}
                                         />
-                                        <Text style={styles.itemName}>{item.name}</Text>
+                                        <Text
+                                            numberOfLines={1}
+                                            ellipsizeMode='tail'
+                                            style={styles.itemName}>{item.name}</Text>
                                     </View>
                                     <View style={styles.sale}>
                                         <Text style={styles.saleText}>Flash Sale</Text>

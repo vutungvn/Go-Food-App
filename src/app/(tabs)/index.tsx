@@ -11,25 +11,25 @@ const data = [
         key: 1,
         name: "Top Quán Rating 5* Tuần Này",
         description: "Gợi ý quán được tín đồ ẩm thực đánh giá 5*",
-        ref: ""
+        refAPI: "top-rating"
     },
     {
         key: 2,
         name: "Bữa Trưa Ngon Rẻ, Món Gì Cũng Có",
         description: "Cơm, Bún, Phở, Gà Rán, Pizza,.. giảm đến 40.000Đ. Ghẹo lựa ngay!",
-        ref: ""
+        refAPI: "top-freeship"
     },
     {
         key: 3,
         name: "Quán Mới Lên Sàn, Giảm 50.000Đ",
         description: "Quán ngon mới mở, toàn món hot...lại giảm đậm sâu 50.000Đ nữa đó",
-        ref: ""
+        refAPI: "newcomer"
     },
     {
         key: 4,
         name: "Chợ Cuối Tuần Giảm Đến 75.000Đ",
         description: "Nhập mã MARTWEEKEND75K giảm 75.000Đ",
-        ref: ""
+        refAPI: "top-freeship"
     },
 ]
 
@@ -39,7 +39,12 @@ const HomeTag = () => {
             <CustomFlatList
                 data={data}
                 style={styles.list}
-                renderItem={({ item }) => <CollectionHome name={item.name} description={item.description} />}
+                renderItem={({ item }) => (
+                    <CollectionHome
+                        name={item.name}
+                        description={item.description}
+                        refAPI={item.refAPI}
+                    />)}
                 HeaderComponent={<HeaderHome />}
                 StickyElementComponent={<SearchHome />}
                 TopListElementComponent={<TopListHome />}
