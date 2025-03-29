@@ -1,9 +1,11 @@
-import { FlatList, Image, Platform, StyleSheet, Text, View } from "react-native"
+import { FlatList, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
 import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useEffect, useState } from "react";
 import { getTopRestaurant } from "@/utils/api";
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface IProps {
     name: string;
@@ -121,30 +123,33 @@ const CollectionHome = (props: IProps) => {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => {
                         return (
-                            <View style={styles.itemContainer}>
-                                <Image style={styles.itemImage}
-                                    source={{ uri: `${baseImage}/${item.image}` }}
-                                />
-                                <View style={styles.itemContent}>
-                                    <View style={{
-                                        flexDirection: "row",
-                                        gap: 5,
-                                    }}>
-                                        <AntDesign
-                                            name="checkcircle"
-                                            size={18}
-                                            color={APP_COLOR.ORANGE}
-                                        />
-                                        <Text
-                                            numberOfLines={1}
-                                            ellipsizeMode='tail'
-                                            style={styles.itemName}>{item.name}</Text>
-                                    </View>
-                                    <View style={styles.sale}>
-                                        <Text style={styles.saleText}>Flash Sale</Text>
+                            <Pressable
+                                onPress={() => router.navigate("/product")}>
+                                <View style={styles.itemContainer}>
+                                    <Image style={styles.itemImage}
+                                        source={{ uri: `${baseImage}/${item.image}` }}
+                                    />
+                                    <View style={styles.itemContent}>
+                                        <View style={{
+                                            flexDirection: "row",
+                                            gap: 5,
+                                        }}>
+                                            <Ionicons
+                                                name="shield-checkmark"
+                                                size={18}
+                                                color="orange"
+                                            />
+                                            <Text
+                                                numberOfLines={1}
+                                                ellipsizeMode='tail'
+                                                style={styles.itemName}>{item.name}</Text>
+                                        </View>
+                                        <View style={styles.sale}>
+                                            <Text style={styles.saleText}>Flash Sale</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
+                            </Pressable>
                         );
                     }}
                 />
