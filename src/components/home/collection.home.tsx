@@ -81,13 +81,7 @@ const styles = StyleSheet.create({
 
 const CollectionHome = (props: IProps) => {
     const { name, description, refAPI } = props;
-    const data = [
-        { key: 1, image: demo, name: 'Cửa hàng 1' },
-        { key: 2, image: demo, name: 'Cửa hàng 2' },
-        { key: 3, image: demo, name: 'Cửa hàng 3' },
-        { key: 4, image: demo, name: 'Cửa hàng 4' },
-        { key: 5, image: demo, name: 'Cửa hàng 5' },
-    ];
+
     const [restaurants, setRestaurants] = useState<ITopRestaurant[]>([])
     const [loading, setLoading] = useState<boolean>(true);
 

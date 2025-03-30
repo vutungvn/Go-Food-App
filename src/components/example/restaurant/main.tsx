@@ -192,6 +192,8 @@ const RMain = (props: IProps) => {
                             <Text style={{
                                 color: item.index === activeMenuIndex ? APP_COLOR.ORANGE : "black",
                                 marginHorizontal: 5,
+                                fontWeight: "600",
+                                textTransform: "uppercase"
                             }}>{item.title}</Text>
                         </View>
                     </TouchableOpacity>
@@ -225,15 +227,15 @@ const RMain = (props: IProps) => {
                                     source={{ uri: `${getURLBaseBackend()}/images/menu-item/${menuItem?.image}` }} />
                             </View>
                             <View style={{ flex: 1, gap: 10 }}>
-                                <View><Text>{menuItem.title}</Text></View>
-                                <View><Text>{menuItem.description}</Text></View>
+                                <View><Text style={{ fontSize: 18, color: "#333333" }}>{menuItem.title}</Text></View>
+                                <View><Text style={{ color: "#777777" }}>{menuItem.description}</Text></View>
                                 <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                                    <Text style={{ color: APP_COLOR.ORANGE }}>
+                                    <Text style={{ color: APP_COLOR.ORANGE, fontSize: 18 }}>
                                         {currencyFormatter(menuItem.basePrice)}
                                     </Text>
                                     <AntDesign
                                         name="plussquare"
-                                        size={24}
+                                        size={30}
                                         color={APP_COLOR.ORANGE} />
                                 </View>
                             </View>
@@ -242,7 +244,7 @@ const RMain = (props: IProps) => {
                 }}
                 renderSectionHeader={({ section }: { section: any }) => (
                     <View style={{ backgroundColor: "white", paddingHorizontal: 10, paddingTop: 10 }}>
-                        <Text style={{ textTransform: "uppercase" }}>{section.title}</Text>
+                        <Text style={{ textTransform: "uppercase", fontWeight: "600", color: "#333333" }}>{section.title}</Text>
                     </View>
                 )}
 
