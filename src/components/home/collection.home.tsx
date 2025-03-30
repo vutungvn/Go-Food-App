@@ -1,4 +1,4 @@
-import { FlatList, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
+import { Dimensions, FlatList, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
 import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { getTopRestaurant } from "@/utils/api";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import ContentLoader, { Rect } from "react-content-loader/native"
+
+const { height: sHeight, width: sWidth } = Dimensions.get('window');
 
 interface IProps {
     name: string;
@@ -86,9 +89,11 @@ const CollectionHome = (props: IProps) => {
         { key: 5, image: demo, name: 'Cửa hàng 5' },
     ];
     const [restaurants, setRestaurants] = useState<ITopRestaurant[]>([])
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             const res = await getTopRestaurant(refAPI);
 
             if (res.data) {
@@ -97,6 +102,7 @@ const CollectionHome = (props: IProps) => {
             } else {
                 //error
             }
+            setLoading(false)
         }
         fetchData()
     }, [refAPI]);
@@ -110,50 +116,70 @@ const CollectionHome = (props: IProps) => {
     return (
         <>
             <View style={{ backgroundColor: "#e9e9e9", height: 10 }}></View>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>{name}</Text>
-                    <Text style={styles.seeAll}>See All &gt;</Text>
-                </View>
-                <Text style={styles.description}>{description}</Text>
-                <FlatList
-                    data={restaurants}
-                    horizontal
-                    contentContainerStyle={{ paddingHorizontal: 5 }}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => {
-                        return (
-                            <Pressable
-                                onPress={() => router.navigate("/product")}>
-                                <View style={styles.itemContainer}>
-                                    <Image style={styles.itemImage}
-                                        source={{ uri: `${baseImage}/${item.image}` }}
-                                    />
-                                    <View style={styles.itemContent}>
-                                        <View style={{
-                                            flexDirection: "row",
-                                            gap: 5,
-                                        }}>
-                                            <Ionicons
-                                                name="shield-checkmark"
-                                                size={18}
-                                                color="orange"
-                                            />
-                                            <Text
-                                                numberOfLines={1}
-                                                ellipsizeMode='tail'
-                                                style={styles.itemName}>{item.name}</Text>
-                                        </View>
-                                        <View style={styles.sale}>
-                                            <Text style={styles.saleText}>Flash Sale</Text>
+            {loading === false ?
+                <View style={styles.container}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>{name}</Text>
+                        <Text style={styles.seeAll}>See All &gt;</Text>
+                    </View>
+                    <Text style={styles.description}>{description}</Text>
+                    <FlatList
+                        data={restaurants}
+                        horizontal
+                        contentContainerStyle={{ paddingHorizontal: 5 }}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => {
+                            return (
+                                <Pressable
+                                    onPress={() => router.navigate({
+                                        pathname: "/product/[id]",
+                                        params: { id: item._id }
+                                    })}>
+                                    <View style={styles.itemContainer}>
+                                        <Image style={styles.itemImage}
+                                            source={{ uri: `${baseImage}/${item.image}` }}
+                                        />
+                                        <View style={styles.itemContent}>
+                                            <View style={{
+                                                flexDirection: "row",
+                                                gap: 5,
+                                            }}>
+                                                <Ionicons
+                                                    name="shield-checkmark"
+                                                    size={18}
+                                                    color="orange"
+                                                />
+                                                <Text
+                                                    numberOfLines={1}
+                                                    ellipsizeMode='tail'
+                                                    style={styles.itemName}>{item.name}</Text>
+                                            </View>
+                                            <View style={styles.sale}>
+                                                <Text style={styles.saleText}>Flash Sale</Text>
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                            </Pressable>
-                        );
-                    }}
-                />
-            </View>
+                                </Pressable>
+                            );
+                        }}
+                    />
+                </View>
+                :
+                <ContentLoader
+                    speed={2}
+                    width={sWidth}
+                    height={230}
+                    // viewBox="0 0 700 150"
+                    backgroundColor="#f3f3f3"
+                    foregroundColor="#ecebeb"
+                    style={{ width: '100%' }}
+                >
+                    <Rect x="10" y="10" rx="5" ry="5" width={150} height="200" />
+                    <Rect x="170" y="10" rx="5" ry="5" width={150} height="200" />
+                    <Rect x="330" y="10" rx="5" ry="5" width={150} height="200" />
+                </ContentLoader>
+
+            }
         </>
     );
 }

@@ -161,7 +161,7 @@ const SectionListScroll = () => {
 
                 />
                 <SectionList
-                    stickySectionHeadersEnabled={true}
+                    // stickySectionHeadersEnabled={true}
                     ref={sectionListRef}
                     onViewableItemsChanged={onViewableItemsChanged}
                     viewabilityConfig={{

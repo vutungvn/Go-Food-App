@@ -5,7 +5,8 @@ import demo from '@/assets/demo.jpg';
 import { APP_COLOR } from '@/utils/constant';
 import StickyHeader from './sticky.header';
 import { useRef, useState } from 'react';
-
+import { currencyFormatter, getURLBaseBackend, processDataRestaurantMenu } from '@/utils/api';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
@@ -16,7 +17,12 @@ const IMAGE_HEIGHT = 220;
 const INFO_HEIGHT = 250;
 const SLIDE_MENU_HEIGHT = 50;
 
-const RMain = () => {
+interface IProps {
+    restaurant: IRestaurant | null;
+}
+const RMain = (props: IProps) => {
+
+    const { restaurant } = props;
     const scrollY = useSharedValue(0);
 
     const sectionListRef = useRef<SectionList>(null);
@@ -124,82 +130,6 @@ const RMain = () => {
         };
     });
 
-    const DATA = [
-        {
-            title: 'Main dishes',
-            data: ['Pizza', 'Burger', 'Risotto'],
-            index: 0,
-            key: 'menu-0'
-        },
-        {
-            title: 'Sides',
-            data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-            index: 1,
-            key: 'menu-1'
-        },
-        {
-            title: 'Drinks',
-            data: ['Water', 'Coke', 'Beer'],
-            index: 2,
-            key: 'menu-2'
-        },
-        {
-            title: 'Desserts',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 3,
-            key: 'menu-3'
-        },
-        {
-            title: 'Desserts1',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 4,
-            key: 'menu-4'
-        },
-        {
-            title: 'Desserts2',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 5,
-            key: 'menu-5'
-        },
-        {
-            title: 'Desserts3',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 6,
-            key: 'menu-6'
-        },
-        {
-            title: 'Desserts4',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 7,
-            key: 'menu-7'
-        },
-        {
-            title: 'Desserts5',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 8,
-            key: 'menu-8'
-        },
-        {
-            title: 'Desserts 9',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 9,
-            key: 'menu-9'
-        },
-        {
-            title: 'Desserts10',
-            data: ['Cheese Cake', 'Ice Cream'],
-            index: 10,
-            key: 'menu-10'
-        },
-        {
-            title: 'Desserts11',
-            data: ['Cheese Cake', 'Ice Cream', 'Cheese Cake', 'Ice Cream'],
-            index: 11,
-            key: 'menu-11'
-        },
-    ];
-
-
     const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<ViewToken> }) => {
         if (viewableItems.length > 0 && !blockUpdateRef.current) {
             const visibleSectionIndex = viewableItems[0].section.index;
@@ -222,21 +152,24 @@ const RMain = () => {
             {/*  Image */}
             <View style={styles.header}>
                 <Image
-                    source={demo}
+                    source={{ uri: `${getURLBaseBackend()}/images/restaurant/${restaurant?.image}` }}
                     style={styles.headerImage}
                 />
             </View>
 
             {/* Info */}
             <Animated.View style={[animatedInfoStyle]}>
-                <Info infoHeight={INFO_HEIGHT} />
+                <Info
+                    infoHeight={INFO_HEIGHT}
+                    restaurant={restaurant}
+                />
             </Animated.View>
 
             {/* Sticky Menu */}
             <Animated.FlatList
                 ref={flatListRef}
                 horizontal
-                data={DATA}
+                data={processDataRestaurantMenu(restaurant)}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity key={index}
                         onPress={() => {
@@ -274,24 +207,42 @@ const RMain = () => {
                 onScroll={onScroll}
                 stickySectionHeadersEnabled={false}
                 contentContainerStyle={{
-                    paddingTop: IMAGE_HEIGHT + INFO_HEIGHT + SLIDE_MENU_HEIGHT,
+                    paddingTop: IMAGE_HEIGHT + INFO_HEIGHT + SLIDE_MENU_HEIGHT - 2,
                     paddingBottom: 30,
                 }}
-                sections={DATA}
-                renderItem={({ item, index }: { item: any, index: any }) => (
-                    <TouchableOpacity onPress={() => alert("render item sections")}>
+                sections={processDataRestaurantMenu(restaurant)}
+                renderItem={({ item, index }: { item: any, index: any }) => {
+                    const menuItem = item as IMenuItem;
 
-                        <View style={{ paddingHorizontal: 10, backgroundColor: "white" }}>
-                            <View style={{ backgroundColor: "pink", height: 50 }}>
-                                <Text >{item} - {index}</Text>
+                    return (
+                        <View style={{
+                            backgroundColor: "white",
+                            gap: 10, flexDirection: "row", padding: 10
+                        }}>
+                            <View>
+                                <Image
+                                    style={{ height: 100, width: 100 }}
+                                    source={{ uri: `${getURLBaseBackend()}/images/menu-item/${menuItem?.image}` }} />
+                            </View>
+                            <View style={{ flex: 1, gap: 10 }}>
+                                <View><Text>{menuItem.title}</Text></View>
+                                <View><Text>{menuItem.description}</Text></View>
+                                <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                    <Text style={{ color: APP_COLOR.ORANGE }}>
+                                        {currencyFormatter(menuItem.basePrice)}
+                                    </Text>
+                                    <AntDesign
+                                        name="plussquare"
+                                        size={24}
+                                        color={APP_COLOR.ORANGE} />
+                                </View>
                             </View>
                         </View>
-                    </TouchableOpacity>
-                )}
+                    )
+                }}
                 renderSectionHeader={({ section }: { section: any }) => (
-
                     <View style={{ backgroundColor: "white", paddingHorizontal: 10, paddingTop: 10 }}>
-                        <Text style={{ textTransform: "uppercase" }}>{section.title} - {section.index}</Text>
+                        <Text style={{ textTransform: "uppercase" }}>{section.title}</Text>
                     </View>
                 )}
 

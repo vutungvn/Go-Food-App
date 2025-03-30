@@ -6,9 +6,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 interface IProps {
     infoHeight: number;
+    restaurant: IRestaurant | null;
 }
 const Info = (props: IProps) => {
-    const { infoHeight } = props;
+    const { infoHeight, restaurant } = props;
 
     return (
         <View style={{
@@ -22,7 +23,10 @@ const Info = (props: IProps) => {
                     </View>
                     <Text>{` `}</Text>
                     <Ionicons name="shield-checkmark" size={20} color="orange" />
-                    <Text style={{ fontSize: 20, fontWeight: "600" }}> Mì cay ăn vặt - Trái Cây Sạch & Đồ Ăn Vặt</Text>
+                    <Text>{` `}</Text>
+                    <Text style={{ fontSize: 24, fontWeight: "600" }}>
+                        {restaurant?.name}
+                    </Text>
                 </Text>
             </View>
             <View style={{ marginHorizontal: 10, marginBottom: 10, flexDirection: "row", justifyContent: "space-between" }}>

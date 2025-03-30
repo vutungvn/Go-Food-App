@@ -83,7 +83,7 @@ const SectionListBasic = () => {
 
     const handleScrollToLocation = () => {
         sectionListRef.current?.scrollToLocation({
-            sectionIndex: 1,
+            sectionIndex: 3,
             itemIndex: 2,
         })
     }
@@ -99,6 +99,7 @@ const SectionListBasic = () => {
                     <Button title="Test Scroll" onPress={handleScrollToLocation} />
                 </View>
                 <SectionList
+                    stickySectionHeadersEnabled={false}
                     ref={sectionListRef}
                     onViewableItemsChanged={onViewableItemsChanged}
                     viewabilityConfig={{
