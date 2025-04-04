@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAccountAPI } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 import * as SplashScreen from 'expo-splash-screen';
@@ -10,6 +10,7 @@ SplashScreen.preventAutoHideAsync();
 
 const RootPage = () => {
     const { setAppState } = useCurrentApp();
+    const [state, setState] = useState<any>();
 
     useEffect(() => {
         async function prepare() {
@@ -28,7 +29,11 @@ const RootPage = () => {
                     router.replace("/(auth)/welcome")
                 }
             } catch (e) {
-                console.warn(e);
+                setState(() => {
+                    throw new Error('Không thể kết nối tới API Backend...')
+                })
+                // console.log("Không thể kết nối tới API Backend...")
+                // console.warn(e);
             } finally {
                 // Tell the application to render
                 await SplashScreen.hideAsync();
