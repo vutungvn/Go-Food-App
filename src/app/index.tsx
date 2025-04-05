@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getAccountAPI } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
 import * as SplashScreen from 'expo-splash-screen';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Network from 'expo-network';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -15,6 +15,13 @@ const RootPage = () => {
     useEffect(() => {
         async function prepare() {
             try {
+                // const netStatus = { isConnected: false };
+                const netStatus = await Network.getNetworkStateAsync();
+                if (!netStatus.isConnected) {
+                    setState(() => {
+                        throw new Error('Không có kết nối mạng. Vui lòng kiểm tra lại.');
+                    });
+                }
                 // Pre-load fonts, make any API calls you need to do here
                 const res = await getAccountAPI();
 
