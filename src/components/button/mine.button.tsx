@@ -29,7 +29,10 @@ const MineButton = (props: IProps) => {
     const { title, onPress } = props;
     return (
         <Pressable
-            style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, alignSelf: "flex-start" })}
+            style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+                alignSelf: "flex-start"
+            })}
             onPress={onPress}
         >
             <View style={styles.btnContainer}>

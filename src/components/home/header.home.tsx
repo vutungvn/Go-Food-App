@@ -4,7 +4,7 @@ import { APP_COLOR } from "@/utils/constant";
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 5,
+        paddingVertical: 5,
         gap: 5,
     },
     location: {

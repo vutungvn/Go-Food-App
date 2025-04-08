@@ -30,6 +30,7 @@ instance.interceptors.response.use(function (response) {
     if (response.data) return response.data;
     return response;
 }, function (error) {
+    console.log(error)
     if (error?.response.data) return error?.response.data;
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error

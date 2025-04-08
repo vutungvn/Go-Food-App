@@ -79,5 +79,31 @@ declare global {
         updatedAt: Date;
     }
 
+    interface ICart {
+        [key: string]: {
+            sum: number;
+            quantity: number;
+            items: {
+                [key: string]: {
+                    quantity: number;
+                    data: IMenuItem
+                }
+            }
+        }
+    }
+
+    // cart: {
+    //     "id-cua-hang-1": {
+    //         sum: 123,
+    //         quantity: 10,
+    //         items: {
+    //             "san-pham-1": {
+    //                 quantity: 2,
+    //                 data: {}
+    //             }
+    //         }
+    //     }
+    // }
+
 }
 

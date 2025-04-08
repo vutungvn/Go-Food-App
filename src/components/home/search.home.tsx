@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 5,
         marginHorizontal: 5,
-        marginVertical: 10,
+        marginBottom: 5,
         paddingHorizontal: 3,
         paddingVertical: 7,
         borderRadius: 5,
