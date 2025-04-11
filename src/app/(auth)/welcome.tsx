@@ -7,10 +7,6 @@ import ggLogo from '@/assets/auth/google.png';
 import { LinearGradient } from "expo-linear-gradient";
 import TextBetweenLine from "@/components/button/text.between.line";
 import { Link, router } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from "react";
-import { getAccountAPI } from "@/utils/api";
-import { useCurrentApp } from "@/context/app.context";
 
 const styles = StyleSheet.create({
     container: {

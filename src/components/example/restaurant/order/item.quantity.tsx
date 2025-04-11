@@ -3,50 +3,56 @@ import { APP_COLOR } from "@/utils/constant";
 import { Image, Pressable, Text, View } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useCurrentApp } from "@/context/app.context";
+import { router } from "expo-router";
 
 interface IProps {
     menuItem: IMenuItem;
     restaurant: IRestaurant | null;
+    isModel: boolean;
 }
 const ItemQuantity = (props: IProps) => {
-    const { menuItem, restaurant } = props;
+    const { menuItem, restaurant, isModel } = props;
     const { cart, setCart } = useCurrentApp();
 
     const handlePressItem = (item: IMenuItem, action: "MINUS" | "PLUS") => {
-        if (restaurant?._id) {
-            const total = action === "MINUS" ? -1 : 1;
+        if (item.options.length && isModel === false) {
+            router.navigate("/product/create.model")
+        } else {
+            if (restaurant?._id) {
+                const total = action === "MINUS" ? -1 : 1;
 
-            if (!cart[restaurant?._id]) {
-                //chưa đã tồn tại giỏ hàng => khởi tạo giỏ hàng
-                cart[restaurant._id] = {
-                    sum: 0,
-                    quantity: 0,
-                    items: {}
+                if (!cart[restaurant?._id]) {
+                    //chưa đã tồn tại giỏ hàng => khởi tạo giỏ hàng
+                    cart[restaurant._id] = {
+                        sum: 0,
+                        quantity: 0,
+                        items: {}
+                    }
                 }
-            }
 
-            //Xử lý sản phẩm
-            cart[restaurant._id].sum = cart[restaurant._id].sum + total * item.basePrice;
-            cart[restaurant._id].quantity = cart[restaurant._id].quantity + total;
+                //Xử lý sản phẩm
+                cart[restaurant._id].sum = cart[restaurant._id].sum + total * item.basePrice;
+                cart[restaurant._id].quantity = cart[restaurant._id].quantity + total;
 
-            //Check sản phẩm đã từng thêm vào chưa
-            if (!cart[restaurant._id].items[item._id]) {
+                //Check sản phẩm đã từng thêm vào chưa
+                if (!cart[restaurant._id].items[item._id]) {
+                    cart[restaurant._id].items[item._id] = {
+                        data: menuItem,
+                        quantity: 0
+                    };
+                }
+
+                const currentQuantity = cart[restaurant._id].items[item._id].quantity + total;
                 cart[restaurant._id].items[item._id] = {
                     data: menuItem,
-                    quantity: 0
+                    quantity: currentQuantity
                 };
-            }
 
-            const currentQuantity = cart[restaurant._id].items[item._id].quantity + total;
-            cart[restaurant._id].items[item._id] = {
-                data: menuItem,
-                quantity: currentQuantity
-            };
-
-            if (currentQuantity <= 0) {
-                delete cart[restaurant._id].items[item._id];
+                if (currentQuantity <= 0) {
+                    delete cart[restaurant._id].items[item._id];
+                }
+                setCart((prevState: any) => ({ ...prevState, cart })) //merge state
             }
-            setCart((prevState: any) => ({ ...prevState, cart })) //merge state
         }
     }
 
