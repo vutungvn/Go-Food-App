@@ -19,6 +19,11 @@ const CreateModalPage = () => {
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
+    const selectedOption = menuItem?.options?.[selectedIndex] ?? { additionalPrice: 0 };
+    const basePrice = menuItem?.basePrice ?? 0;
+    const totalPrice = (basePrice + selectedOption.additionalPrice) * quantity;
+
+
     useEffect(() => {
         if (restaurant && menuItemId) {
             for (let i = 0; i <= restaurant.menu.length; i++) {
@@ -225,7 +230,7 @@ const CreateModalPage = () => {
                             borderRadius: 3
                         })}>
                         <Text style={{ textAlign: "center", color: "white" }}>
-                            Add to Basket
+                            Add to Basket - {currencyFormatter(totalPrice)}
                         </Text>
                     </Pressable>
 
