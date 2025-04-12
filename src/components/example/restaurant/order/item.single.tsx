@@ -2,8 +2,6 @@ import { currencyFormatter, getURLBaseBackend } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
 import { Image, Pressable, Text, View } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useCurrentApp } from "@/context/app.context";
-import { router } from "expo-router";
 
 interface IProps {
     menuItem: IMenuItem | null;

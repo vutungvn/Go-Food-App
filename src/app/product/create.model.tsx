@@ -26,11 +26,11 @@ const CreateModalPage = () => {
 
     useEffect(() => {
         if (restaurant && menuItemId) {
-            for (let i = 0; i <= restaurant.menu.length; i++) {
+            for (let i = 0; i < restaurant.menu.length; i++) {
                 const menu = restaurant.menu[i];
 
                 let check = false;
-                for (let j = 0; j <= menu.menuItem.length; j++) {
+                for (let j = 0; j < menu.menuItem.length; j++) {
                     if (menu.menuItem[j]._id === menuItemId) {
                         check = true;
                         setMenuItem(menu.menuItem[j]);
@@ -54,6 +54,7 @@ const CreateModalPage = () => {
             const item = menuItem!;
 
             const options = menuItem.options[selectedIndex];
+            const keyOption = `${options.title}-${options.description}`;
 
             if (!cart[restaurant?._id]) {
                 //chưa đã tồn tại giỏ hàng => khởi tạo giỏ hàng
@@ -72,20 +73,49 @@ const CreateModalPage = () => {
             if (!cart[restaurant._id].items[item._id]) {
                 cart[restaurant._id].items[item._id] = {
                     data: menuItem,
-                    quantity: 0
+                    quantity: 0,
+                    extra: {
+                        [keyOption]: 0
+                    }
                 };
             }
 
+            //check options đã từng thêm vào chưa
+            if (cart[restaurant._id].items[item._id]) {
+                const extra = cart[restaurant._id].items[item._id].extra;
+                if (extra && !extra[keyOption]) {
+                    cart[restaurant._id].items[item._id] = {
+                        ...cart[restaurant._id].items[item._id],
+                        extra: {
+                            ...cart[restaurant._id].items[item._id].extra,
+                            [keyOption]: 0
+                        }
+                    }
+                }
+            }
+
             const currentQuantity = cart[restaurant._id].items[item._id].quantity + total;
+
+            const i = cart[restaurant._id].items[item._id];
+            let currentExtraQuantity = 0;
+            if (i.extra && i.extra?.[keyOption] !== null)
+                currentExtraQuantity = i.extra[keyOption] + total;
+
             cart[restaurant._id].items[item._id] = {
                 data: menuItem,
-                quantity: currentQuantity
+                quantity: currentQuantity,
+                extra: {
+                    ...cart[restaurant._id].items[item._id].extra,
+                    [keyOption]: currentExtraQuantity
+                }
             };
 
             if (currentQuantity <= 0) {
                 delete cart[restaurant._id].items[item._id];
             }
-            setCart((prevState: any) => ({ ...prevState, cart })) //merge state
+
+            setCart((prevState: any) => ({ ...prevState, ...cart })) //merge state
+
             router.back()
         }
     }

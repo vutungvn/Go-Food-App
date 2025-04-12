@@ -1,7 +1,3 @@
-import { currencyFormatter, getURLBaseBackend } from "@/utils/api";
-import { APP_COLOR } from "@/utils/constant";
-import { Image, Pressable, Text, View } from "react-native";
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { useCurrentApp } from "@/context/app.context";
 import { router } from "expo-router";
 import ItemSingle from "./item.single";
@@ -18,7 +14,9 @@ const ItemQuantity = (props: IProps) => {
     const handlePressItem = (item: IMenuItem, action: "MINUS" | "PLUS") => {
         if (item.options.length && isModel === false) {
             router.navigate({
-                pathname: "/product/create.model",
+                pathname: action === "PLUS" ?
+                    "/product/create.model" :
+                    "/product/update.modal",
                 params: { menuItemId: menuItem._id }
             })
         } else {
@@ -55,7 +53,7 @@ const ItemQuantity = (props: IProps) => {
                 if (currentQuantity <= 0) {
                     delete cart[restaurant._id].items[item._id];
                 }
-                setCart((prevState: any) => ({ ...prevState, cart })) //merge state
+                setCart((prevState: any) => ({ ...prevState, ...cart })) //merge state
             }
         }
     }

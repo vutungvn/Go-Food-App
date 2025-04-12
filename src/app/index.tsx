@@ -30,7 +30,7 @@ const RootPage = () => {
                     setAppState({
                         user: res.data.user,
                     });
-                    router.replace("/(tabs)")
+                    router.replace("/(auth)/welcome")
                 } else {
                     //error
                     router.replace("/(auth)/welcome")

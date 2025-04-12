@@ -3,6 +3,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { APP_COLOR } from "@/utils/constant";
 import { currencyFormatter } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
+import { router } from "expo-router";
 
 interface IProps {
     restaurant: IRestaurant | null;
@@ -51,13 +52,14 @@ const StickyFooter = (props: IProps) => {
                     >
                         <View
                             style={{
-                                padding: 10
+                                paddingVertical: 10,
+                                paddingHorizontal: 30
                             }}
                         >
                             <View
                                 style={{
                                     position: "absolute",
-                                    left: 40,
+                                    left: 60,
                                     top: 5,
                                     width: 16,
                                     height: 16,
@@ -80,7 +82,7 @@ const StickyFooter = (props: IProps) => {
                                 />
                             </Pressable>
                         </View>
-                        <View>
+                        <View style={{ paddingRight: 10 }}>
                             <Text style={{
                                 color: APP_COLOR.ORANGE,
                                 fontSize: 18
@@ -90,15 +92,13 @@ const StickyFooter = (props: IProps) => {
                         </View>
                     </View>
                     <View style={{
-                        width: 100,
+                        paddingHorizontal: 30,
                         justifyContent: "center",
                         alignItems: "center",
                         backgroundColor: APP_COLOR.ORANGE,
-                        borderRadius: 10,
-                        margin: 8
                     }}>
                         <Text
-                            onPress={() => alert("Giao hàng")}
+                            onPress={() => router.navigate("/product/order")}
                             style={{
                                 color: "white"
                             }}

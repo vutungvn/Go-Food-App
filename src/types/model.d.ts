@@ -86,7 +86,10 @@ declare global {
             items: {
                 [key: string]: {
                     quantity: number;
-                    data: IMenuItem
+                    data: IMenuItem;
+                    extra?: {
+                        [key: string]: number;
+                    }
                 }
             }
         }
@@ -99,7 +102,11 @@ declare global {
     //         items: {
     //             "san-pham-1": {
     //                 quantity: 2,
-    //                 data: {}
+    //                 data: {},
+    //                 extra: {
+    //                     "size L": 1,
+    //                     "size M": 1
+    //                 }
     //             }
     //         }
     //     }

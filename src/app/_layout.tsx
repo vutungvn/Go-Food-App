@@ -6,6 +6,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Image, Text, View } from "react-native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { APP_COLOR } from "@/utils/constant";
 
 export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
     return (
@@ -55,12 +56,9 @@ const RootLayout = () => {
                     <ThemeProvider value={navTheme}>
                         <Stack
                             screenOptions={{
-                                headerStyle: {
-                                    backgroundColor: '#f4511e',
-                                },
-                                headerTintColor: '#fff',
+                                headerTintColor: APP_COLOR.ORANGE,
                                 headerTitleStyle: {
-                                    fontWeight: 'bold',
+                                    color: "black",
                                 },
                             }}
                         >
@@ -105,6 +103,22 @@ const RootLayout = () => {
                                     headerShown: false,
                                     presentation: "transparentModal",
                                     animation: "fade"
+                                }}
+                            />
+
+                            <Stack.Screen
+                                name="product/update.modal"
+                                options={{
+                                    headerShown: false,
+                                    presentation: "transparentModal",
+                                    animation: "fade"
+                                }}
+                            />
+
+                            <Stack.Screen
+                                name="product/order"
+                                options={{
+                                    headerTitle: "Xác nhận đơn hàng"
                                 }}
                             />
                         </Stack>
