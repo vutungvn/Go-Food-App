@@ -3,7 +3,8 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { APP_COLOR } from "@/utils/constant";
 import { currencyFormatter } from "@/utils/api";
 import { useCurrentApp } from "@/context/app.context";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
+import { useState } from "react";
 
 interface IProps {
     restaurant: IRestaurant | null;
@@ -12,6 +13,17 @@ interface IProps {
 const StickyFooter = (props: IProps) => {
     const { cart, setCart } = useCurrentApp();
     const { restaurant } = props;
+
+    const pathname = usePathname();
+    const isCartVisible = pathname === "/product/cart.modal";
+
+    const handleToggleCart = () => {
+        if (isCartVisible) {
+            router.back();
+        } else {
+            router.navigate("/product/cart.modal");
+        }
+    };
 
     const getSum = () => {
         if (restaurant && cart[restaurant._id]) {
@@ -76,7 +88,8 @@ const StickyFooter = (props: IProps) => {
                                     {getTotalQuantity()}
                                 </Text>
                             </View>
-                            <Pressable onPress={() => alert("cart")}>
+                            <Pressable
+                                onPress={handleToggleCart}>
                                 <FontAwesome5 name="shopping-basket"
                                     size={30} color={APP_COLOR.ORANGE}
                                 />

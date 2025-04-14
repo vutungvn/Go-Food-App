@@ -121,6 +121,16 @@ const RootLayout = () => {
                                     headerTitle: "Xác nhận đơn hàng"
                                 }}
                             />
+
+
+                            <Stack.Screen
+                                name="product/cart.modal"
+                                options={{
+                                    headerShown: false,
+                                    presentation: "transparentModal",
+                                    animation: "fade"
+                                }}
+                            />
                         </Stack>
                     </ThemeProvider>
                     {/* </SafeAreaView> */}
