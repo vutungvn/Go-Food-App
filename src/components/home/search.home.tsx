@@ -4,7 +4,7 @@ import { APP_COLOR } from "@/utils/constant";
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: APP_COLOR.GREY,
+        backgroundColor: "#eee",
         flexDirection: "row",
         gap: 5,
         marginHorizontal: 5,
