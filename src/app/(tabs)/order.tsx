@@ -29,11 +29,9 @@ const OrderPage = () => {
                     }}
                 >
                     <Text style={{ color: APP_COLOR.ORANGE, fontSize: 20, fontWeight: "bold" }}>
-                        Lịch sử đơn hàng
+                        Order History
                     </Text>
                 </View>
-
-
                 <ScrollView style={{ flex: 1, padding: 16 }}>
                     {orderHistory.map((item, index) => (
                         <View
