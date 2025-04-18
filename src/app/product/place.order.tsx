@@ -219,7 +219,7 @@ const PlaceOrderPage = () => {
                                         color: selectedPayment === "paypal" ? "#fff" : APP_COLOR.GREY,
                                         textAlign: "center",
                                         fontWeight: "500"
-                                    }}>Ví PayPal</Text>
+                                    }}>Pay Stack</Text>
                                 </Pressable>
                                 <Pressable
                                     onPress={() => setSelectedPayment("cash")}

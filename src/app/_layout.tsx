@@ -118,7 +118,8 @@ const RootLayout = () => {
                             <Stack.Screen
                                 name="product/place.order"
                                 options={{
-                                    headerTitle: "Xác nhận đơn hàng"
+                                    headerTitle: "Order Confirm",
+                                    headerTitleAlign: "center",
                                 }}
                             />
 
