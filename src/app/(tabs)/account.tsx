@@ -1,77 +1,167 @@
-import ShareInput from "@/components/input/share.input";
+import UserInfo from "@/components/account/user.info";
 import { useCurrentApp } from "@/context/app.context";
-import { Image, Platform, Text, View, StyleSheet } from "react-native";
-import User from "../(user)/user";
+import { getURLBaseBackend } from "@/utils/api";
+import { router } from "expo-router";
+import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Feather from '@expo/vector-icons/Feather';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { APP_COLOR } from "@/utils/constant";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const AccountPage = () => {
-    const { theme, appState } = useCurrentApp();
 
-    const backend = Platform.OS === "android"
-        ? process.env.EXPO_PUBLIC_ANDROID_API_URL
-        : process.env.EXPO_PUBLIC_IOS_API_URL;
+    const { appState } = useCurrentApp();
+    const baseImage = `${getURLBaseBackend()}/images/avatar`;
+    const insets = useSafeAreaInsets();
 
-    const baseImage = `${backend}/images/avatar`;
+    const style = StyleSheet.create({
+        information: {
+            paddingTop: insets.top,
+            paddingHorizontal: 20,
+            paddingBottom: 20,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 20,
+            backgroundColor: APP_COLOR.ORANGE,
+        },
+        list_item: {
+            paddingVertical: 20,
+            paddingHorizontal: 10,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: "white",
+            borderBottomWidth: 1,
+            borderBottomColor: "#eee",
+        },
+        list_item_information: {
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+        },
+        text: {
+            fontSize: 16,
+            fontWeight: "400",
+            color: "#505050"
+        }
+    })
 
     return (
-        <View style={styles.container}>
-            <View style={styles.profileContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={style.information}>
                 <Image
-                    style={styles.avatar}
+                    style={{ width: 60, height: 60 }}
                     source={{ uri: `${baseImage}/${appState?.user.avatar}` }}
                 />
-                <Text style={styles.username}>{appState?.user.name}</Text>
+                <View>
+                    <Text style={{ color: "white", fontSize: 20, fontWeight: "400" }}>{appState?.user.name}</Text>
+                </View>
             </View>
 
-            <View style={styles.inputContainer}>
-                <ShareInput
-                    title="Full name"
-                    value={appState?.user.name}
-                />
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <Feather name="user-check" size={20} color="green" />
+                    <Text style={style.text}>Update Information</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
 
-                <ShareInput
-                    title="Email"
-                    keyboardType="email-address"
-                    value={appState?.user.email}
-                />
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <MaterialIcons name="password" size={20} color="green" />
+                    <Text style={style.text}>Change Password</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
 
-                <ShareInput
-                    title="Phone Number"
-                    value={appState?.user.phone}
-                />
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <FontAwesome name="language" size={24} color="grey" />
+                    <Text style={style.text}>Language</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <MaterialCommunityIcons name="food-fork-drink" size={24} color={APP_COLOR.ORANGE} />
+                    <Text style={style.text}>About GoFood</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <View style={{ backgroundColor: "#e9e9e9", height: 10 }}></View>
+
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <Ionicons name="location-outline" size={24} color="green" />
+                    <Text style={style.text}>Address</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <FontAwesome5 name="user-plus" size={20} color={APP_COLOR.ORANGE} />
+                    <Text style={style.text}>Invite Friends</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <Feather name="help-circle" size={24} color="green" />
+                    <Text style={style.text}>Help Centre</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <View style={{ backgroundColor: "#e9e9e9", height: 10 }}></View>
+
+            <Pressable style={style.list_item}>
+                <View style={style.list_item_information}>
+                    <MaterialIcons name="payment" size={24} color="indigo" />
+                    <Text style={style.text}>Payment</Text>
+                </View>
+                <MaterialIcons name="navigate-next" size={24} color="grey" />
+            </Pressable>
+
+            <View
+                style={{
+                    flex: 1,
+                    justifyContent: "flex-end",
+                    gap: 3,
+                    paddingBottom: insets.bottom + 30,
+                }}
+            >
+                <Pressable
+                    style={({ pressed }) => ({
+                        opacity: pressed ? 0.5 : 1,
+                        backgroundColor: APP_COLOR.ORANGE,
+                        padding: 10,
+                        borderRadius: 3,
+                        paddingHorizontal: 10,
+                        marginHorizontal: 10,
+                        alignItems: "center",
+                    })}
+                >
+                    <Text
+                        style={{
+                            color: "white",
+                            fontSize: 18,
+                            fontWeight: "500",
+                        }}
+                    >Log Out</Text>
+                </Pressable>
+                <Text style={{ textAlign: "center", color: "gray", marginTop: 5, fontWeight: "500" }}>Version 7.40.0</Text>
+                <Text style={{ textAlign: "center", color: "gray", fontWeight: "500" }}>Foody Corporation (@Thanh Tùng)</Text>
             </View>
         </View>
-    );
+    )
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#f9f9f9",
-        padding: 20,
-        alignItems: "center",
-    },
-    profileContainer: {
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    avatar: {
-        width: 150,
-        height: 150,
-        borderRadius: 60,
-        borderWidth: 2,
-        borderColor: "#ddd",
-    },
-    username: {
-        marginTop: 10,
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#333",
-    },
-    inputContainer: {
-        width: "100%",
-        marginTop: 10,
-        gap: 20
-    },
-});
 
 export default AccountPage;

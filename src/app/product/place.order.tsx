@@ -20,6 +20,7 @@ interface IOrderItem {
 const PlaceOrderPage = () => {
     const { restaurant, cart, setCart } = useCurrentApp();
     const [orderItems, setOrderItems] = useState<IOrderItem[]>([]);
+    const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
 
     useEffect(() => {
         if (cart && restaurant && restaurant._id) {
@@ -203,29 +204,35 @@ const PlaceOrderPage = () => {
                                 justifyContent: "space-between",
                                 marginBottom: 10
                             }}>
-                                <Pressable style={{
-                                    borderWidth: 1,
-                                    borderColor: APP_COLOR.GREY,
-                                    flex: 1,
-                                    paddingVertical: 10,
-                                    borderRadius: 5,
-                                    marginRight: 8
-                                }}>
+                                <Pressable
+                                    onPress={() => setSelectedPayment("paypal")}
+                                    style={{
+                                        borderWidth: 1,
+                                        borderColor: selectedPayment === "paypal" ? APP_COLOR.ORANGE : APP_COLOR.GREY,
+                                        backgroundColor: selectedPayment === "paypal" ? APP_COLOR.ORANGE : "#fff",
+                                        flex: 1,
+                                        paddingVertical: 10,
+                                        borderRadius: 5,
+                                        marginRight: 8
+                                    }}>
                                     <Text style={{
-                                        color: APP_COLOR.GREY,
+                                        color: selectedPayment === "paypal" ? "#fff" : APP_COLOR.GREY,
                                         textAlign: "center",
                                         fontWeight: "500"
                                     }}>Ví PayPal</Text>
                                 </Pressable>
-                                <Pressable style={{
-                                    borderWidth: 1,
-                                    borderColor: APP_COLOR.ORANGE,
-                                    flex: 1,
-                                    paddingVertical: 10,
-                                    borderRadius: 5
-                                }}>
+                                <Pressable
+                                    onPress={() => setSelectedPayment("cash")}
+                                    style={{
+                                        borderWidth: 1,
+                                        borderColor: selectedPayment === "cash" ? APP_COLOR.ORANGE : APP_COLOR.GREY,
+                                        backgroundColor: selectedPayment === "cash" ? APP_COLOR.ORANGE : "#fff",
+                                        flex: 1,
+                                        paddingVertical: 10,
+                                        borderRadius: 5
+                                    }}>
                                     <Text style={{
-                                        color: APP_COLOR.ORANGE,
+                                        color: selectedPayment === "cash" ? "#fff" : APP_COLOR.GREY,
                                         textAlign: "center",
                                         fontWeight: "500"
                                     }}>Tiền mặt</Text>
