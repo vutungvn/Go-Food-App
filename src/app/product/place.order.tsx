@@ -205,18 +205,18 @@ const PlaceOrderPage = () => {
                                 marginBottom: 10
                             }}>
                                 <Pressable
-                                    onPress={() => setSelectedPayment("paypal")}
+                                    onPress={() => setSelectedPayment("pay stack")}
                                     style={{
                                         borderWidth: 1,
-                                        borderColor: selectedPayment === "paypal" ? APP_COLOR.ORANGE : APP_COLOR.GREY,
-                                        backgroundColor: selectedPayment === "paypal" ? APP_COLOR.ORANGE : "#fff",
+                                        borderColor: selectedPayment === "pay stack" ? APP_COLOR.ORANGE : APP_COLOR.GREY,
+                                        backgroundColor: selectedPayment === "pay stack" ? APP_COLOR.ORANGE : "#fff",
                                         flex: 1,
                                         paddingVertical: 10,
                                         borderRadius: 5,
                                         marginRight: 8
                                     }}>
                                     <Text style={{
-                                        color: selectedPayment === "paypal" ? "#fff" : APP_COLOR.GREY,
+                                        color: selectedPayment === "pay stack" ? "#fff" : APP_COLOR.GREY,
                                         textAlign: "center",
                                         fontWeight: "500"
                                     }}>Pay Stack</Text>
