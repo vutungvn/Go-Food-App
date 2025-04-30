@@ -2,7 +2,7 @@ import UserInfo from "@/components/account/user.info";
 import { useCurrentApp } from "@/context/app.context";
 import { getURLBaseBackend } from "@/utils/api";
 import { router } from "expo-router";
-import { Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -11,6 +11,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { APP_COLOR } from "@/utils/constant";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const AccountPage = () => {
 
@@ -50,19 +51,40 @@ const AccountPage = () => {
         }
     })
 
+    const handleLogout = () => {
+        Alert.alert('Log Out', 'Are you sure you want to log out the user?', [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+            },
+            {
+                text: 'Confirm',
+                onPress: async () => {
+                    await AsyncStorage.removeItem("access_token");
+                    router.replace("/(auth)/welcome");
+                }
+            },
+        ]);
+    }
     return (
         <View style={{ flex: 1 }}>
-            <View style={style.information}>
-                <Image
-                    style={{ width: 60, height: 60 }}
-                    source={{ uri: `${baseImage}/${appState?.user.avatar}` }}
-                />
-                <View>
-                    <Text style={{ color: "white", fontSize: 20, fontWeight: "400" }}>{appState?.user.name}</Text>
+            <Pressable
+                onPress={() => router.navigate("/(user)/account/info")}
+            >
+                <View style={style.information}>
+                    <Image
+                        style={{ width: 60, height: 60 }}
+                        source={{ uri: `${baseImage}/${appState?.user.avatar}` }}
+                    />
+                    <View>
+                        <Text style={{ color: "white", fontSize: 20, fontWeight: "400" }}>{appState?.user.name}</Text>
+                    </View>
                 </View>
-            </View>
+            </Pressable>
 
-            <Pressable style={style.list_item}>
+            <Pressable
+                onPress={() => router.navigate("/(user)/account/info")}
+                style={style.list_item}>
                 <View style={style.list_item_information}>
                     <Feather name="user-check" size={20} color="green" />
                     <Text style={style.text}>Update Information</Text>
@@ -139,6 +161,7 @@ const AccountPage = () => {
                 }}
             >
                 <Pressable
+                    onPress={handleLogout}
                     style={({ pressed }) => ({
                         opacity: pressed ? 0.5 : 1,
                         backgroundColor: APP_COLOR.ORANGE,

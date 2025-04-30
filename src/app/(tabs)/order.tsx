@@ -28,7 +28,7 @@ const OrderPage = () => {
                         backgroundColor: "#fff",
                     }}
                 >
-                    <Text style={{ color: APP_COLOR.ORANGE, fontSize: 20, fontWeight: "bold" }}>
+                    <Text style={{ color: APP_COLOR.ORANGE, fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
                         Order History
                     </Text>
                 </View>
