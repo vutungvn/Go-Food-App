@@ -12,10 +12,11 @@ import { APP_COLOR } from "@/utils/constant";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useEffect } from "react";
 
 const AccountPage = () => {
 
-    const { appState } = useCurrentApp();
+    const { appState, setAppState } = useCurrentApp();
     const baseImage = `${getURLBaseBackend()}/images/avatar`;
     const insets = useSafeAreaInsets();
 
@@ -66,6 +67,27 @@ const AccountPage = () => {
             },
         ]);
     }
+
+    // Load user data from AsyncStorage on component mount
+    useEffect(() => {
+        const loadUserData = async () => {
+            try {
+                const storedUser = await AsyncStorage.getItem("user");
+                if (storedUser) {
+                    const parsedUser = JSON.parse(storedUser);
+                    setAppState((prevState: typeof appState) => ({
+                        ...prevState,
+                        user: parsedUser,
+                    }));
+                }
+            } catch (error) {
+                console.error("Failed to load user data:", error);
+            }
+        };
+
+        loadUserData();
+    }, []);
+
     return (
         <View style={{ flex: 1 }}>
             <Pressable

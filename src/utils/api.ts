@@ -100,3 +100,8 @@ export const getOrderHistoryAPI = () => {
     const url = `/api/v1/orders`;
     return axios.get<IBackendRes<IOrderHistory[]>>(url);
 }
+
+export const updateUserAPI = (_id: string, name: string, phone: string) => {
+    const url = `/api/v1/users`;
+    return axios.patch<IBackendRes<IUserLogin>>(url, { _id, name, phone });
+}

@@ -7,7 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { APP_COLOR } from "@/utils/constant";
 import { currencyFormatter, getURLBaseBackend } from "@/utils/api";
 import StickyFooter from "@/components/example/restaurant/order/sticky.footer";
-import AddNoteModal from "@/app/product/addnote.modal";
+import AddNoteModal from "@/app/(user)/product/addnote.modal";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const CreateModalPage = () => {
