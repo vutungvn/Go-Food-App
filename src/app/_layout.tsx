@@ -98,6 +98,11 @@ const RootLayout = () => {
                             />
 
                             <Stack.Screen
+                                name="(auth)/search"
+                                options={{ headerShown: false }}
+                            />
+
+                            <Stack.Screen
                                 name="(tabs)"
                                 options={{ headerShown: false }}
                             />

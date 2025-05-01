@@ -67,26 +67,6 @@ const AccountPage = () => {
         ]);
     }
 
-    // Load user data from AsyncStorage on component mount
-    useEffect(() => {
-        const loadUserData = async () => {
-            try {
-                const storedUser = await AsyncStorage.getItem("user");
-                if (storedUser) {
-                    const parsedUser = JSON.parse(storedUser);
-                    setAppState((prevState: typeof appState) => ({
-                        ...prevState,
-                        user: parsedUser,
-                    }));
-                }
-            } catch (error) {
-                console.error("Failed to load user data:", error);
-            }
-        };
-
-        loadUserData();
-    }, []);
-
     return (
         <View style={{ flex: 1 }}>
             <Pressable

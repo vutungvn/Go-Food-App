@@ -1,80 +1,87 @@
-import {
-    getFavoriteRestaurantAPI,
-    getURLBaseBackend,
-} from "@/utils/api";
-import { APP_COLOR } from "@/utils/constant";
-import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    Image,
-    Pressable,
-    StyleSheet,
-    Text,
     View,
+    Text,
+    Image,
     ScrollView,
+    StyleSheet,
+    Pressable,
     RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+
+import { getFavoriteRestaurantAPI, getURLBaseBackend } from "@/utils/api";
+import { APP_COLOR } from "@/utils/constant";
 
 const FavoritePage = () => {
-    const [favoriteRestaurant, setFavoriteRestaurant] = useState<IRestaurant[]>([]);
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [favoriteRestaurants, setFavoriteRestaurants] = useState<IRestaurant[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
 
-    const fetchRestaurants = async () => {
-        const res = await getFavoriteRestaurantAPI();
-        if (res.data) setFavoriteRestaurant(res.data);
-    };
     useEffect(() => {
         fetchRestaurants();
     }, []);
+
+    const fetchRestaurants = async () => {
+        const res = await getFavoriteRestaurantAPI();
+        if (res.data) {
+            setFavoriteRestaurants(res.data);
+        }
+    };
 
     const onRefresh = async () => {
         setRefreshing(true);
         await fetchRestaurants();
         setRefreshing(false);
-    }
+    };
+
+    const renderEmpty = () => (
+        <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Không có dữ liệu.</Text>
+        </View>
+    );
+
+    const renderItem = (item: IRestaurant, index: number) => (
+        <View key={index} style={styles.cardContainer}>
+            <Pressable
+                onPress={() =>
+                    router.navigate({
+                        pathname: "/product/[id]",
+                        params: { id: item._id },
+                    })
+                }
+                style={styles.restaurantCard}
+            >
+                <Image
+                    source={{ uri: `${getURLBaseBackend()}/images/restaurant/${item.image}` }}
+                    style={styles.restaurantImage}
+                />
+
+                <View style={styles.restaurantInfo}>
+                    <Text style={styles.restaurantName}>{item.name}</Text>
+                    <Text style={styles.restaurantDetail}>{item.phone}</Text>
+                    <Text style={styles.restaurantDetail}>{item.address}</Text>
+                </View>
+            </Pressable>
+            <View style={styles.separator} />
+        </View>
+    );
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>Liked Restaurants</Text>
             </View>
+
             <ScrollView
                 contentContainerStyle={styles.scrollView}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
             >
-                {favoriteRestaurant.length > 0 ? (
-                    favoriteRestaurant.map((item, index) => (
-                        <View key={index} style={styles.cardContainer}>
-                            <View style={styles.restaurantCard}>
-                                <Image
-                                    source={{ uri: `${getURLBaseBackend()}/images/restaurant/${item.image}` }}
-                                    style={styles.restaurantImage}
-                                />
-                                <Pressable
-                                    onPress={() =>
-                                        router.navigate({
-                                            pathname: "/product/[id]",
-                                            params: { id: item._id },
-                                        })
-                                    }
-                                    style={styles.restaurantInfo}
-                                >
-                                    <Text style={styles.restaurantName}>{item.name}</Text>
-                                    <Text style={styles.restaurantDetail}>{item.phone}</Text>
-                                    <Text style={styles.restaurantDetail}>{item.address}</Text>
-                                </Pressable>
-                            </View>
-                            <View style={styles.separator} />
-                        </View>
-                    ))
-                ) : (
-                    <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>Không có dữ liệu.</Text>
-                    </View>
-                )}
+                {favoriteRestaurants.length > 0
+                    ? favoriteRestaurants.map(renderItem)
+                    : renderEmpty()}
             </ScrollView>
         </SafeAreaView>
     );
@@ -86,11 +93,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     headerContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 10,
         borderBottomColor: "#eee",
         borderBottomWidth: 1,
-        paddingHorizontal: 16,
-        paddingBottom: 10,
-        paddingTop: 10,
     },
     headerText: {
         fontSize: 20,
@@ -106,27 +112,29 @@ const styles = StyleSheet.create({
     },
     restaurantCard: {
         flexDirection: "row",
-        padding: 16,
-        gap: 12,
         alignItems: "center",
+        padding: 16,
+        backgroundColor: "#fff",
     },
     restaurantImage: {
         width: 100,
         height: 100,
         borderRadius: 10,
+        marginRight: 12,
     },
     restaurantInfo: {
         flex: 1,
-        gap: 6,
     },
     restaurantName: {
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
+        marginBottom: 4,
     },
     restaurantDetail: {
         fontSize: 14,
         color: "#666",
+        marginBottom: 2,
     },
     separator: {
         height: 10,
