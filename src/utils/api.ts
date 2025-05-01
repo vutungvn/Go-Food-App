@@ -105,3 +105,11 @@ export const updateUserAPI = (_id: string, name: string, phone: string) => {
     const url = `/api/v1/users`;
     return axios.patch<IBackendRes<IUserLogin>>(url, { _id, name, phone });
 }
+
+export const updateUserPasswordAPI = (
+    currentPassword: string,
+    newPassword: string,
+) => {
+    const url = `/api/v1/users/password`;
+    return axios.post<IBackendRes<IUserLogin>>(url, { currentPassword, newPassword });
+}

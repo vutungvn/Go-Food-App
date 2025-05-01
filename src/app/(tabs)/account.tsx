@@ -1,4 +1,3 @@
-import UserInfo from "@/components/account/user.info";
 import { useCurrentApp } from "@/context/app.context";
 import { getURLBaseBackend } from "@/utils/api";
 import { router } from "expo-router";
@@ -114,7 +113,10 @@ const AccountPage = () => {
                 <MaterialIcons name="navigate-next" size={24} color="grey" />
             </Pressable>
 
-            <Pressable style={style.list_item}>
+            <Pressable
+                onPress={() => router.navigate("/(user)/account/password")}
+                style={style.list_item}
+            >
                 <View style={style.list_item_information}>
                     <MaterialIcons name="password" size={20} color="green" />
                     <Text style={style.text}>Change Password</Text>

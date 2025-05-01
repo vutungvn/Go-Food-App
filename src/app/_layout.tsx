@@ -139,6 +139,14 @@ const RootLayout = () => {
                                     headerTitleAlign: "center",
                                 }}
                             />
+
+                            <Stack.Screen
+                                name="(user)/account/password"
+                                options={{
+                                    headerTitle: "Password Change",
+                                    headerTitleAlign: "center",
+                                }}
+                            />
                         </Stack>
                     </ThemeProvider>
                     {/* </SafeAreaView> */}

@@ -77,9 +77,12 @@ const UserInfo = () => {
 
                     Toast.show("Cập nhật thông tin user thành công!", {
                         duration: Toast.durations.LONG,
-                        textColor: "white",
                         backgroundColor: APP_COLOR.GREEN,
-                        opacity: 1,
+                        opacity: 0.9,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                        textStyle: { fontSize: 16 },
                     });
                 } else {
                     const errorMessage = Array.isArray(res.message)
@@ -88,18 +91,24 @@ const UserInfo = () => {
 
                     Toast.show(errorMessage, {
                         duration: Toast.durations.LONG,
-                        textColor: "white",
                         backgroundColor: APP_COLOR.ORANGE,
-                        opacity: 1,
+                        opacity: 0.9,
+                        shadow: true,
+                        animation: true,
+                        hideOnPress: true,
+                        textStyle: { fontSize: 16 },
                     });
                 }
             } catch (error) {
                 console.error("Failed to update user:", error);
                 Toast.show("Đã xảy ra lỗi khi cập nhật thông tin!", {
                     duration: Toast.durations.LONG,
-                    textColor: "white",
                     backgroundColor: APP_COLOR.ORANGE,
-                    opacity: 1,
+                    opacity: 0.9,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    textStyle: { fontSize: 16 },
                 });
             }
         }
