@@ -106,6 +106,7 @@ const LoginPage = () => {
                                 marginTop: 20
                             }}>
                             <Text
+                                onPress={() => router.navigate("/(auth)/request.password")}
                                 style={{
                                     color: APP_COLOR.ORANGE,
                                 }}

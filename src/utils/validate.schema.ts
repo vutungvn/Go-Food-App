@@ -51,3 +51,21 @@ export const UpdateUserPasswordSchema = Yup.object().shape({
         .required('Xác nhận mật khẩu mới không được để trống')
         .oneOf([Yup.ref('newPassword')], 'Password phải khớp nhau!'),
 });
+
+export const RequestPasswordSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Định dạng email không hợp lệ')
+        .required('Email không được để trống'),
+});
+
+export const ForgotPasswordSchema = Yup.object().shape({
+    password: Yup.string()
+        .min(6, 'Password cần tối thiểu 6 ký tự')
+        .max(50, 'Password cần tối đa 50 ký tự')
+        .required('Password không được để trống'),
+    confirmPassword: Yup.string()
+        .required('Xác nhận mật khẩu không được để trống')
+        .oneOf([Yup.ref('password')], 'Password phải khớp nhau!'),
+    code: Yup.string()
+        .required('Code không được để trống'),
+});
