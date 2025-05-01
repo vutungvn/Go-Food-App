@@ -4,3 +4,5 @@ export const APP_COLOR = {
     GREY: "#d0d0d0",
     GREEN: "green"
 }
+
+export const APP_FONT = "OpenSans-Regular";
