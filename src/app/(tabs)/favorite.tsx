@@ -4,7 +4,7 @@ import {
 } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Image,
     Pressable,
@@ -12,26 +12,39 @@ import {
     Text,
     View,
     ScrollView,
+    RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const FavoritePage = () => {
     const [favoriteRestaurant, setFavoriteRestaurant] = useState<IRestaurant[]>([]);
+    const [refreshing, setRefreshing] = React.useState(false);
 
+    const fetchRestaurants = async () => {
+        const res = await getFavoriteRestaurantAPI();
+        if (res.data) setFavoriteRestaurant(res.data);
+    };
     useEffect(() => {
-        const fetchRestaurants = async () => {
-            const res = await getFavoriteRestaurantAPI();
-            if (res.data) setFavoriteRestaurant(res.data);
-        };
         fetchRestaurants();
     }, []);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await fetchRestaurants();
+        setRefreshing(false);
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>Liked Restaurants</Text>
             </View>
-            <ScrollView contentContainerStyle={styles.scrollView}>
+            <ScrollView
+                contentContainerStyle={styles.scrollView}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
                 {favoriteRestaurant.length > 0 ? (
                     favoriteRestaurant.map((item, index) => (
                         <View key={index} style={styles.cardContainer}>
