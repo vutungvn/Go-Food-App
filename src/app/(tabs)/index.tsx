@@ -3,7 +3,9 @@ import CollectionHome from "@/components/home/collection.home";
 import HeaderHome from "@/components/home/header.home";
 import SearchHome from "@/components/home/search.home";
 import TopListHome from "@/components/home/top.list.home";
-import { StyleSheet } from "react-native"
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import { Button, StyleSheet } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const data = [
@@ -34,6 +36,20 @@ const data = [
 ]
 
 const HomeTag = () => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+
+    useEffect(() => {
+        if (!mounted) return;
+        setTimeout(() => {
+            router.push("/(auth)/popup.sale")
+        }, 1000)
+    }, [mounted])
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <CustomFlatList

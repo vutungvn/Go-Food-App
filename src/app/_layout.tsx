@@ -108,6 +108,15 @@ const RootLayout = () => {
                             />
 
                             <Stack.Screen
+                                name="(auth)/popup.sale"
+                                options={{
+                                    headerShown: false,
+                                    animation: "fade",
+                                    presentation: "transparentModal",
+                                }}
+                            />
+
+                            <Stack.Screen
                                 name="(tabs)"
                                 options={{ headerShown: false }}
                             />
