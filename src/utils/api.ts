@@ -134,7 +134,12 @@ export const getFavoriteRestaurantAPI = () => {
     return axios.get<IBackendRes<IRestaurant[]>>(url);
 }
 
-export const getRestaurantByName = (name: string) => {
+export const getRestaurantByNameAPI = (name: string) => {
     const url = `/api/v1/restaurants?current=1&pageSize=10&name=/${name}/i`;
+    return axios.get<IBackendRes<IModelPaginate<IRestaurant>>>(url);
+}
+
+export const filterRestaurantAPI = (query: string) => {
+    const url = `/api/v1/restaurants?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IRestaurant>>>(url);
 }

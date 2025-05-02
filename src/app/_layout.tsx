@@ -103,6 +103,11 @@ const RootLayout = () => {
                             />
 
                             <Stack.Screen
+                                name="(auth)/show.restaurant"
+                                options={{ headerShown: false }}
+                            />
+
+                            <Stack.Screen
                                 name="(tabs)"
                                 options={{ headerShown: false }}
                             />

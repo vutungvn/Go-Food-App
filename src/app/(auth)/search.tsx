@@ -6,7 +6,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { useState } from "react";
 import debounce from "debounce";
-import { getRestaurantByName, getURLBaseBackend } from "@/utils/api";
+import { getRestaurantByNameAPI, getURLBaseBackend } from "@/utils/api";
 
 const data = [
     { key: 1, name: "Quán Tiền Bối", source: require("@/assets/icons/noodles.png") },
@@ -27,7 +27,7 @@ const SearchPage = () => {
         setSearchTerm(text);
         if (!text) return;
 
-        const res = await getRestaurantByName(text);
+        const res = await getRestaurantByNameAPI(text);
         if (res.data) {
             setRestaurants(res.data.results)
         }

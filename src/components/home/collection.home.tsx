@@ -1,12 +1,11 @@
 import { Dimensions, FlatList, Image, Platform, Pressable, StyleSheet, Text, View } from "react-native"
-import demo from "@/assets/demo.jpg"
 import { APP_COLOR } from "@/utils/constant";
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { useEffect, useState } from "react";
 import { getTopRestaurant } from "@/utils/api";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import ContentLoader, { Rect } from "react-content-loader/native"
+import ContentLoader, { Rect } from "react-content-loader/native";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const { height: sHeight, width: sWidth } = Dimensions.get('window');
 
@@ -114,7 +113,20 @@ const CollectionHome = (props: IProps) => {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text style={styles.title}>{name}</Text>
-                        <Text style={styles.seeAll}>See All &gt;</Text>
+                        <Pressable
+                            onPress={() => router.navigate("/(auth)/show.restaurant")}
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between"
+                            }}
+                        >
+                            <Text style={styles.seeAll}>See All</Text>
+                            <MaterialIcons
+                                style={{ marginTop: 3 }}
+                                name="navigate-next" size={20} color="grey"
+                            />
+                        </Pressable>
                     </View>
                     <Text style={styles.description}>{description}</Text>
                     <FlatList
