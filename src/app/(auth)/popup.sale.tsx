@@ -6,6 +6,13 @@ import Animated, { FadeIn, SlideInDown } from "react-native-reanimated";
 
 const PopupSalePage = () => {
 
+    const handleNavigate = () => {
+        router.navigate({
+            pathname: "/product/[id]",
+            params: { id: "66d584ad5d45fefd8b0b8a92" }
+        })
+    };
+
     return (
         <Pressable
             style={{
@@ -50,6 +57,7 @@ const PopupSalePage = () => {
                         }}
                     />
                     <Pressable
+                        onPress={handleNavigate}
                         style={({ pressed }) => ({
                             backgroundColor: pressed === false ? "#f04054" : "#d85b6a",
                             paddingVertical: 5,

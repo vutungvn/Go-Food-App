@@ -5,7 +5,7 @@ import SearchHome from "@/components/home/search.home";
 import TopListHome from "@/components/home/top.list.home";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, StyleSheet } from "react-native"
+import { Button, RefreshControl, StyleSheet } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const data = [
@@ -37,11 +37,18 @@ const data = [
 
 const HomeTag = () => {
     const [mounted, setMounted] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    const onRefresh = async () => {
+        setRefreshing(true);
+        // Gọi lại popup khi kéo xuống làm mới
+        router.push("/(auth)/popup.sale");
+        setRefreshing(false);
+    };
 
     useEffect(() => {
         if (!mounted) return;
@@ -64,6 +71,9 @@ const HomeTag = () => {
                 HeaderComponent={<HeaderHome />}
                 StickyElementComponent={<SearchHome />}
                 TopListElementComponent={<TopListHome />}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             />
         </SafeAreaView>
     );
