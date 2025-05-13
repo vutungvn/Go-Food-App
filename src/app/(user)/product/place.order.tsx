@@ -220,7 +220,7 @@ const PlaceOrderPage = () => {
                                             color: selectedPayment === "pay stack" ? "#fff" : APP_COLOR.GREY,
                                             textAlign: "center",
                                             fontWeight: "500"
-                                        }}>Pay Stack</Text>
+                                        }}>VN Pay</Text>
                                     </Pressable>
                                     <Pressable
                                         onPress={() => setSelectedPayment("cash")}
