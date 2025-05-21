@@ -35,7 +35,7 @@ const StickyHeader = (props: IProps) => {
     } = props;
 
     const [like, setLike] = useState<boolean>(false);
-    const { restaurant, appState } = useCurrentApp();
+    const { restaurant, appState, setRestaurant } = useCurrentApp();
 
     useEffect(() => {
         if (restaurant) {
@@ -54,6 +54,12 @@ const StickyHeader = (props: IProps) => {
             if (res.data) {
                 //success 
                 setLike(!like);
+
+                // Cập nhật lại restaurant trong context
+                setRestaurant({
+                    ...restaurant,
+                    isLike: !like,
+                });
             } else {
                 const m = Array.isArray(res.message)
                     ? res.message[0] : res.message;

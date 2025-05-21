@@ -13,6 +13,7 @@ interface IProps {
     name: string;
     description: string;
     refAPI: string;
+    refreshSignal: number;
 }
 
 const styles = StyleSheet.create({
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
 });
 
 const CollectionHome = (props: IProps) => {
-    const { name, description, refAPI } = props;
+    const { name, description, refAPI, refreshSignal } = props;
 
     const [restaurants, setRestaurants] = useState<ITopRestaurant[]>([])
     const [loading, setLoading] = useState<boolean>(true);
@@ -98,7 +99,7 @@ const CollectionHome = (props: IProps) => {
             setLoading(false)
         }
         fetchData()
-    }, [refAPI]);
+    }, [refAPI, refreshSignal]);
 
     const backend = Platform.OS === "android"
         ? process.env.EXPO_PUBLIC_ANDROID_API_URL

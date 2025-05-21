@@ -9,7 +9,7 @@ const PopupSalePage = () => {
     const handleNavigate = () => {
         router.navigate({
             pathname: "/product/[id]",
-            params: { id: "66d584ad5d45fefd8b0b8a92" }
+            params: { id: "682de5734044044532be012e" }
         })
     };
 

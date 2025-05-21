@@ -38,6 +38,7 @@ const data = [
 const HomeTag = () => {
     const [mounted, setMounted] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [refreshSignal, setRefreshSignal] = useState(0);
 
     useEffect(() => {
         setMounted(true);
@@ -45,8 +46,7 @@ const HomeTag = () => {
 
     const onRefresh = async () => {
         setRefreshing(true);
-        // Gọi lại popup khi kéo xuống làm mới
-        router.push("/(auth)/popup.sale");
+        setRefreshSignal(prev => prev + 1); // dùng để báo các collection cần reload
         setRefreshing(false);
     };
 
@@ -67,6 +67,7 @@ const HomeTag = () => {
                         name={item.name}
                         description={item.description}
                         refAPI={item.refAPI}
+                        refreshSignal={refreshSignal}
                     />)}
                 HeaderComponent={<HeaderHome />}
                 StickyElementComponent={<SearchHome />}
