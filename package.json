@@ -44,7 +44,7 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.7.1",
     "react-native-tabs-section-list": "1.0.1",
-    "react-native-webview": "13.8.6",
+    "react-native-webview": "^13.8.6",
     "yup": "1.4.0"
   },
   "devDependencies": {
