@@ -1,18 +1,26 @@
 import { currencyFormatter, getOrderHistoryAPI, getURLBaseBackend } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
-import { useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { useEffect, useState, useCallback } from "react";
+import { Image, Text, View, RefreshControl } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const OrderPage = () => {
     const [orderHistory, setOrderHistory] = useState<IOrderHistory[]>([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchOrderHistory = async () => {
+        const res = await getOrderHistoryAPI();
+        if (res.data) setOrderHistory(res.data);
+    };
+
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true);
+        await fetchOrderHistory();
+        setRefreshing(false);
+    }, []);
 
     useEffect(() => {
-        const fetchOrderHistory = async () => {
-            const res = await getOrderHistoryAPI();
-            if (res.data) setOrderHistory(res.data);
-        };
         fetchOrderHistory();
     }, []);
 
@@ -32,7 +40,11 @@ const OrderPage = () => {
                         Order History
                     </Text>
                 </View>
-                <ScrollView style={{ flex: 1, padding: 16 }}>
+
+                <ScrollView
+                    style={{ flex: 1, padding: 16 }}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
                     {orderHistory.map((item, index) => (
                         <View
                             key={index}

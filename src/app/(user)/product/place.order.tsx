@@ -1,5 +1,6 @@
 import HeaderHome from "@/components/home/header.home";
 import PayStackPayment from "@/components/Payment/PayStack.payment";
+import VoucherSelector from "@/components/Payment/Voucher.input";
 import { useCurrentApp } from "@/context/app.context";
 import { currencyFormatter, getURLBaseBackend, placeOrderAPI } from "@/utils/api";
 import { APP_COLOR } from "@/utils/constant";
@@ -23,6 +24,8 @@ const PlaceOrderPage = () => {
     const { restaurant, cart, setCart } = useCurrentApp();
     const [orderItems, setOrderItems] = useState<IOrderItem[]>([]);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+    const [voucherCode, setVoucherCode] = useState<string>("");
+    const [discountAmount, setDiscountAmount] = useState<number>(0);
     const paystackRef = useRef<any>(null);
 
     useEffect(() => {
@@ -129,17 +132,14 @@ const PlaceOrderPage = () => {
             defaultChannels={["card", "mobile_money"]}
         >
             <View style={{ flex: 1, backgroundColor: "#fff" }}>
-                {/* Header */}
                 <View style={{ borderBottomColor: "#eee", borderBottomWidth: 1, padding: 10 }}>
                     <HeaderHome />
                 </View>
 
-                {/* Restaurant name */}
                 <View style={{ paddingHorizontal: 15, paddingTop: 10 }}>
                     <Text style={{ fontWeight: "700", fontSize: 16 }}>{restaurant?.name}</Text>
                 </View>
 
-                {/* Order list */}
                 <ScrollView style={{ padding: 15, flex: 1 }}>
                     {orderItems.map((item, index) => (
                         <View
@@ -197,19 +197,45 @@ const PlaceOrderPage = () => {
                     ))}
                 </ScrollView>
 
-                {/* Footer */}
                 {orderItems.length > 0 && (
                     <View style={{ borderTopWidth: 1, borderTopColor: "#eee", backgroundColor: "#fff" }}>
-                        {/* Tổng cộng */}
-                        <View style={{ paddingHorizontal: 15, paddingTop: 15, flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text style={{ color: "#999", fontSize: 14 }}>
-                                Tổng cộng ({restaurant && cart?.[restaurant._id]?.quantity} món)
-                            </Text>
-                            <Text style={{ fontWeight: "bold", fontSize: 16 }}>{currencyFormatter(totalAmount)}</Text>
+                        <View style={{ paddingHorizontal: 15, paddingTop: 15 }}>
+                            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                <Text style={{ color: "#999", fontSize: 14 }}>
+                                    Tổng cộng ({restaurant && cart?.[restaurant._id]?.quantity} món)
+                                </Text>
+
+                                <View style={{ alignItems: "flex-end" }}>
+                                    {discountAmount > 0 && (
+                                        <Text style={{
+                                            fontSize: 13,
+                                            color: "#999",
+                                            textDecorationLine: "line-through"
+                                        }}>
+                                            {currencyFormatter(totalAmount)}
+                                        </Text>
+                                    )}
+                                    <Text style={{
+                                        fontSize: 18,
+                                        fontWeight: "bold",
+                                        color: APP_COLOR.ORANGE
+                                    }}>
+                                        {currencyFormatter(totalAmount - discountAmount)}
+                                    </Text>
+                                </View>
+                            </View>
                         </View>
 
-                        {/* Phương thức thanh toán */}
                         <View style={{ padding: 15 }}>
+                            <VoucherSelector
+                                totalAmount={totalAmount}
+                                selectedCode={voucherCode}
+                                onSelect={(code, discount) => {
+                                    setVoucherCode(code);
+                                    setDiscountAmount(discount);
+                                }}
+                            />
+
                             <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
                                 <Pressable
                                     onPress={() => setSelectedPayment("pay stack")}
@@ -266,7 +292,7 @@ const PlaceOrderPage = () => {
                                 })}
                             >
                                 <Text style={{ color: "#fff", fontWeight: "600", fontSize: 15, textAlign: "center" }}>
-                                    Đặt hàng - {currencyFormatter(totalAmount)}
+                                    Đặt hàng - {currencyFormatter(totalAmount - discountAmount)}
                                 </Text>
                             </Pressable>
                         </View>
@@ -274,8 +300,7 @@ const PlaceOrderPage = () => {
                 )}
             </View>
 
-            {/* Paystack Component (ẩn) */}
-            <PayStackPayment ref={paystackRef} amount={totalAmount} onSuccessPayment={placeOrderSuccess} />
+            <PayStackPayment ref={paystackRef} amount={totalAmount - discountAmount} onSuccessPayment={placeOrderSuccess} />
         </PaystackProvider>
     );
 };
